@@ -4,14 +4,12 @@ import { PaperProvider, Text } from "react-native-paper";
 
 import { ActivityIndicator, MD2Colors } from "react-native-paper";
 
+import { MainNavigation } from "./src/navigation";
+
 export default function App() {
   return (
     <PaperProvider>
-      <View style={styles.container}>
-        <Text variant="titleLarge">
-          Open up App.js to start working on your app!
-        </Text>
-      </View>
+      <MainNavigation />
     </PaperProvider>
   );
 }
