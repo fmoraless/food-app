@@ -6,7 +6,11 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "lint": "eslint --ext .jsx --ext .jsx ./src",
+    "lint:fix": "eslint --fix --ext .jsx --ext .jsx ./",
+    "format": "prettier --check ./src",
+    "write": "prettier --write ./src"
   },
   "dependencies": {
     "@react-navigation/native": "^6.1.17",
@@ -20,7 +24,14 @@
     "react-native-screens": "~3.29.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "eslint": "^8.57.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.34.1",
+    "prettier": "3.2.5"
   },
   "private": true
 }
