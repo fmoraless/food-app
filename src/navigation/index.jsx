@@ -1,7 +1,8 @@
-import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { HomeScreen } from "../screens/HomeScreen";
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react';
+
+import { HomeScreen } from '../screens/HomeScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -11,7 +12,7 @@ export const MainNavigation = () => {
       <Stack.Navigator headerShown={false}>
         <Stack.Screen
           options={{
-            headerShown: false,
+            headerShown: false
           }}
           name="Home"
           component={HomeScreen}

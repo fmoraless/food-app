@@ -1,11 +1,12 @@
-import { View, Text, StyleSheet, StatusBar, FlatList } from "react-native";
-import React, { useEffect, useState } from "react";
-import Colors from "../constants/Colors";
-import Separator from "../components/Separator";
-import { TextInput, Icon, IonicIcon, Searchbar } from "react-native-paper";
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, StatusBar, FlatList } from 'react-native';
+import { Searchbar } from 'react-native-paper';
+
+import Separator from '../components/Separator';
+import Colors from '../constants/Colors';
 
 export const HomeScreen = () => {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   console.log({ searchQuery });
   useEffect(() => {}, []);
 
@@ -14,11 +15,11 @@ export const HomeScreen = () => {
       <StatusBar
         barStyle="light-content"
         backgroundColor={Colors.DEFAULT_GREEN}
-        translucent={true}
+        translucent
       />
       <Separator height={StatusBar.currentHeight} />
       <View style={styles.backgroundCurvedContainer}>
-        <View style={styles.headerContainer}></View>
+        <View style={styles.headerContainer} />
       </View>
       <View style={styles.inputContainer}>
         <Searchbar
@@ -35,23 +36,23 @@ export const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.SECONDARY_WHITE,
+    backgroundColor: Colors.SECONDARY_WHITE
   },
   backgroundCurvedContainer: {
     backgroundColor: Colors.DEFAULT_GREEN,
     height: 2000,
-    position: "absolute",
+    position: 'absolute',
     top: -1 * (2000 - 190),
     width: 2000,
     borderRadius: 2000,
-    alignSelf: "center",
-    zIndex: -1,
+    alignSelf: 'center',
+    zIndex: -1
   },
   headerContainer: {
-    justifyContent: "center",
+    justifyContent: 'center'
   },
   inputContainer: {
     marginTop: 60,
-    marginHorizontal: 20,
-  },
+    marginHorizontal: 20
+  }
 });
