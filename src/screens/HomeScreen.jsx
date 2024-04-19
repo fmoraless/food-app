@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, StatusBar, FlatList } from 'react-native';
+import { View, StyleSheet, StatusBar, Text, ScrollView } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 
 import Separator from '../components/Separator';
 import Colors from '../constants/Colors';
+import { Fonts, Mock } from '../constants';
+import CategoryMenuItem from '../components/categories/CategoryMenuItem';
 
 export const HomeScreen = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [activeCategory, setActiveCategory] = useState('');
   console.log({ searchQuery });
   useEffect(() => {}, []);
 
@@ -17,18 +20,42 @@ export const HomeScreen = () => {
         backgroundColor={Colors.DEFAULT_GREEN}
         translucent
       />
+
       <Separator height={StatusBar.currentHeight} />
-      <View style={styles.backgroundCurvedContainer}>
-        <View style={styles.headerContainer} />
+
+      <View style={styles.backgroundCurvedContainer} />
+
+      <View style={styles.headerContainer}>
+        <View style={styles.searchContainer}>
+          <View style={styles.searchSection}>
+            <Searchbar
+              placeholder="Buscar..."
+              onChangeText={setSearchQuery}
+              value={searchQuery}
+            />
+          </View>
+        </View>
+
+        <View style={styles.categoriesContainer}>
+          {Mock.CATEGORIES.map(({ name, logo }) => (
+            <CategoryMenuItem
+              key={name}
+              name={name}
+              logo={logo}
+              activeCategory={activeCategory}
+              setActiveCategory={setActiveCategory}
+            />
+          ))}
+        </View>
       </View>
-      <View style={styles.inputContainer}>
-        <Searchbar
-          placeholder="Buscar..."
-          onChangeText={setSearchQuery}
-          value={searchQuery}
-        />
-      </View>
-      <FlatList />
+      <ScrollView style={styles.listContainer}>
+        <View style={styles.horizontalListContainer}>
+          <View style={styles.listHeader}>
+            <Text style={styles.listHeaderTitle}>Mejor valorados</Text>
+            <Text style={styles.listHeaderSubtitle}>Ver más</Text>
+          </View>
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -36,23 +63,42 @@ export const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.SECONDARY_WHITE
+    backgroundColor: Colors.SECONDARY_WHITE,
   },
   backgroundCurvedContainer: {
-    backgroundColor: Colors.DEFAULT_GREEN,
+    backgroundColor: Colors.DEFAULT_RED,
     height: 2000,
     position: 'absolute',
-    top: -1 * (2000 - 190),
+    top: -1 * (2000 - 220),
     width: 2000,
     borderRadius: 2000,
     alignSelf: 'center',
-    zIndex: -1
+    zIndex: -1,
   },
   headerContainer: {
-    justifyContent: 'center'
+    justifyContent: 'space-evenly',
   },
-  inputContainer: {
-    marginTop: 60,
-    marginHorizontal: 20
-  }
+  searchContainer: {
+    borderRadius: 8,
+    marginHorizontal: 20,
+    marginTop: 30,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  categoriesContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    marginTop: 20,
+  },
+  searchSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 10,
+  },
+  listContainer: {},
+  horizontalListContainer: {},
+  listHeader: {},
+  listHeaderTitle: {},
+  listHeaderSubtitle: {},
 });
