@@ -7,4 +7,87 @@ const CATEGORIES = [
   { name: 'Fideos', logo: 'NOODLES' },
 ];
 
-export default { CATEGORIES };
+const PRODUCTS = [
+  {
+    id: 1,
+    name: 'Pollo Asado',
+    price: '10.99',
+    category: 'Pollo',
+    image: 'http://example.com/image1.jpg',
+    rating: 4.7,
+  },
+  {
+    id: 2,
+    name: 'Hamburgesa 1',
+    price: '19.99',
+    category: 'Sandwichs',
+    image: 'http://example.com/image2.jpg',
+    rating: 4.5,
+  },
+  {
+    id: 3,
+    name: 'Hamburguesa 33',
+    price: '5.99',
+    category: 'Sandwichs',
+    image: 'http://example.com/image3.jpg',
+    rating: 4.0,
+  },
+  {
+    id: 4,
+    name: 'Pizza 1',
+    price: '7.99',
+    category: 'Pizza',
+    image: 'http://example.com/image4.jpg',
+    rating: 3.7,
+  },
+  {
+    id: 5,
+    name: 'Pie de limón',
+    price: '12.99',
+    category: 'Postres',
+    image: 'http://example.com/image5.jpg',
+    rating: 3.0,
+  },
+  {
+    id: 6,
+    name: 'Coca cola',
+    price: '3.99',
+    category: 'Bebidas',
+    image: 'http://example.com/image6.jpg',
+    rating: 5.0,
+  },
+  {
+    id: 7,
+    name: 'Nectar durazno',
+    price: '9.99',
+    category: 'Bebidas',
+    image: 'http://example.com/image7.jpg',
+    rating: 4.8,
+  },
+  {
+    id: 8,
+    name: 'Ramen',
+    price: '14.99',
+    category: 'Fideos',
+    image: 'http://example.com/image8.jpg',
+    rating: 4.0,
+  },
+  {
+    id: 9,
+    name: 'Maru Chan',
+    price: '6.99',
+    category: 'Fideos',
+    image: 'http://example.com/image9.jpg',
+    rating: 3.5,
+  },
+  {
+    id: 10,
+    name: 'Pollo Frito',
+    price: '11.99',
+    category: 'Pollo',
+    image: 'http://example.com/image10.jpg',
+    rating: 5.0,
+  },
+];
+
+export default { CATEGORIES, PRODUCTS };
