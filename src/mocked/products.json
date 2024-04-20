@@ -4,7 +4,7 @@
       "id": 1,
       "name": "Pollo Asado",
       "price": 1000,
-      "image": "https://picsum.photos/200",
+      "image": "https://images.pexels.com/photos/2338407/pexels-photo-2338407.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
       "category": "Pollo",
       "created_at": 1708361795779,
       "rating": 4.7
@@ -14,7 +14,7 @@
       "name": "Hamburgesa 1",
       "price": "19.99",
       "category": "Sandwichs",
-      "image": "http://example.com/image2.jpg",
+      "image": "https://images.pexels.com/photos/1552641/pexels-photo-1552641.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
       "rating": 4.5
     },
     {
@@ -22,7 +22,7 @@
       "name": "Hamburguesa 33",
       "price": "5.99",
       "category": "Sandwichs",
-      "image": "http://example.com/image3.jpg",
+      "image": "https://images.pexels.com/photos/918581/pexels-photo-918581.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
       "rating": 4.0
     },
     {
@@ -30,15 +30,15 @@
       "name": "Pizza 1",
       "price": "7.99",
       "category": "Pizza",
-      "image": "http://example.com/image4.jpg",
+      "image": "https://images.pexels.com/photos/845811/pexels-photo-845811.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
       "rating": 3.7
     },
     {
       "id": 5,
-      "name": "Pie de limón",
+      "name": "Pastel Frambuesa",
       "price": "12.99",
       "category": "Postres",
-      "image": "http://example.com/image5.jpg",
+      "image": "https://images.pexels.com/photos/291528/pexels-photo-291528.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
       "rating": 3.0
     },
     {
@@ -46,7 +46,7 @@
       "name": "Coca cola",
       "price": "3.99",
       "category": "Bebidas",
-      "image": "http://example.com/image6.jpg",
+      "image": "https://images.pexels.com/photos/50593/coca-cola-cold-drink-soft-drink-coke-50593.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
       "rating": 5.0
     },
     {
@@ -54,7 +54,7 @@
       "name": "Nectar durazno",
       "price": "9.99",
       "category": "Bebidas",
-      "image": "http://example.com/image7.jpg",
+      "image": "https://images.pexels.com/photos/9230288/pexels-photo-9230288.jpeg",
       "rating": 4.8
     },
     {
@@ -62,15 +62,15 @@
       "name": "Ramen",
       "price": "14.99",
       "category": "Fideos",
-      "image": "http://example.com/image8.jpg",
+      "image": "https://images.pexels.com/photos/2664216/pexels-photo-2664216.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
       "rating": 4.0
     },
     {
       "id": 9,
-      "name": "Maru Chan",
+      "name": "Fideos coreanos",
       "price": "6.99",
       "category": "Fideos",
-      "image": "http://example.com/image9.jpg",
+      "image": "https://images.pexels.com/photos/16594957/pexels-photo-16594957/free-photo-of-noodle-korean-soup.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
       "rating": 3.5
     },
     {
@@ -78,7 +78,88 @@
       "name": "Pollo Frito",
       "price": "11.99",
       "category": "Pollo",
-      "image": "http://example.com/image10.jpg",
+      "image": "https://images.pexels.com/photos/1059943/pexels-photo-1059943.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "rating": 5.0
+    },
+    {
+      "id": 11,
+      "name": "Pollo asado entero",
+      "price": 12.89,
+      "image": "https://images.pexels.com/photos/616354/pexels-photo-616354.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "category": "Pollo",
+      "created_at": 1708361795779,
+      "rating": 4.7
+    },
+    {
+      "id": 12,
+      "name": "Hamburgesa 5",
+      "price": "29.99",
+      "category": "Sandwichs",
+      "image": "https://images.pexels.com/photos/1639565/pexels-photo-1639565.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "rating": 4.0
+    },
+    {
+      "id": 13,
+      "name": "Cheescake frambuesa",
+      "price": "8.99",
+      "category": "Postres",
+      "image": "https://images.pexels.com/photos/1126359/pexels-photo-1126359.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "rating": 4.0
+    },
+    {
+      "id": 14,
+      "name": "Pizza Italiana",
+      "price": "8.99",
+      "category": "Pizza",
+      "image": "https://images.pexels.com/photos/1166120/pexels-photo-1166120.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "rating": 3.1
+    },
+    {
+      "id": 15,
+      "name": "Waffles",
+      "price": "18.99",
+      "category": "Postres",
+      "image": "https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "rating": 5.0
+    },
+    {
+      "id": 16,
+      "name": "Batido de frutilla",
+      "price": "6.99",
+      "category": "Bebidas",
+      "image": "https://images.pexels.com/photos/990439/pexels-photo-990439.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "rating": 5.0
+    },
+    {
+      "id": 17,
+      "name": "Nectar durazno",
+      "price": "9.99",
+      "category": "Bebidas",
+      "image": "https://images.pexels.com/photos/9230288/pexels-photo-9230288.jpeg",
+      "rating": 4.8
+    },
+    {
+      "id": 18,
+      "name": "Café capuccino",
+      "price": "4.99",
+      "category": "Bebidas",
+      "image": "https://images.pexels.com/photos/414555/pexels-photo-414555.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "rating": 3.0
+    },
+    {
+      "id": 19,
+      "name": "Café normal",
+      "price": "6.99",
+      "category": "Bebidas",
+      "image": "https://images.pexels.com/photos/2113129/pexels-photo-2113129.jpeg",
+      "rating": 3.5
+    },
+    {
+      "id": 20,
+      "name": "Muffin Chocolate",
+      "price": "14.99",
+      "category": "Postres",
+      "image": "https://images.pexels.com/photos/1026123/pexels-photo-1026123.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
       "rating": 5.0
     }
   ]
