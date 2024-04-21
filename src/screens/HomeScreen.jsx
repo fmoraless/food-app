@@ -25,14 +25,15 @@ export const HomeScreen = () => {
 
   console.log(productos);
 
-  const productsByCategory = products.filter((product) => {
-    return product.category === activeCategory;
-  });
-  console.log({ productsByCategory });
+  // console.log({ productsByCategory });
   // console.log({ searchQuery });
   useEffect(() => {
-    setProductos(products);
-  }, []);
+    // setProductos(products);
+    const productsByCategory = products.filter((product) => {
+      return product.category.includes(activeCategory);
+    });
+    setProductos(productsByCategory);
+  }, [activeCategory]);
 
   return (
     <View style={styles.container}>
