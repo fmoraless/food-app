@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Images from '../../constants/Images';
 import Colors from '../../constants/Colors';
@@ -13,12 +13,23 @@ const CategoryMenuItem = ({
 }) => {
   // console.log(logo);
   const icono = Icons[logo];
-  console.log(activeCategory);
+  const [isActive, setIsActive] = useState(false);
+
+  const handlePress = () => {
+    if (isActive) {
+      setIsActive(false);
+      setActiveCategory('');
+    } else {
+      setIsActive(true);
+      setActiveCategory(name);
+    }
+  };
+
   return (
     <TouchableOpacity
       style={styles.category()}
       key={name}
-      onPress={() => setActiveCategory(name)}>
+      onPress={handlePress}>
       <Image
         source={Images[logo]}
         style={styles.categoryIcon(activeCategory === name)}
