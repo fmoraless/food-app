@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -15,7 +15,7 @@ import { Searchbar } from 'react-native-paper';
 
 import Separator from '../components/Separator';
 import Colors from '../constants/Colors';
-import { Fonts, Mock } from '../constants';
+import { Mock } from '../constants';
 import CategoryMenuItem from '../components/categories/CategoryMenuItem';
 import { ProductCard } from '../components/products/ProductCard';
 import responseProducts from '../mocked/products.json';
@@ -26,7 +26,6 @@ export const HomeScreen = () => {
   const products = responseProducts.products;
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [productos, setProductos] = useState(products);
-  // console.log(productos);
 
   // TODO: aplicar Debounce
 

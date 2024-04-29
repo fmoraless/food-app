@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     lineHeight: 10 * 1.4,
     color: Colors.DEFAULT_WHITE,
+    fontFamily: 'Poppins-Medium',
     marginTop: 5,
     opacity: isActive ? 1 : 0.5,
   }),

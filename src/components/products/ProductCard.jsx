@@ -1,15 +1,27 @@
 import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+  View,
+} from 'react-native';
 import { Icon } from 'react-native-paper';
 import Colors from '../../constants/Colors';
 
 export const ProductCard = ({ name, image, price }) => {
-  console.log(image);
+  const { height, width } = useWindowDimensions();
+  const DYNAMIC_WIDTH = width / 2 - 30;
+
+  // console.log(height, DYNAMIC_WIDTH);
   return (
     <View style={styles.cardContainer}>
       <Image
         source={{ uri: image }}
-        style={{ ...{ width: 180, height: 100, borderRadius: 10 } }}
+        resizeMode="cover"
+        style={{
+          ...{ width: DYNAMIC_WIDTH || 'auto', height: 100, borderRadius: 10 },
+        }}
       />
       <View
         style={{
@@ -17,7 +29,7 @@ export const ProductCard = ({ name, image, price }) => {
           justifyContent: 'space-between',
           marginTop: 5,
         }}>
-        <Text>{name}</Text>
+        <Text style={styles.productNameText}>{name}</Text>
         <Text>${price}</Text>
       </View>
       <View style={{ flexDirection: 'row', marginTop: 3 }}>
@@ -40,5 +52,9 @@ const styles = StyleSheet.create({
   },
   image: {
     borderRadius: 10,
+  },
+  productNameText: {
+    fontSize: 14,
+    fontFamily: 'Poppins-Medium',
   },
 });
