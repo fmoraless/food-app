@@ -7,7 +7,9 @@
       "image": "https://images.pexels.com/photos/2338407/pexels-photo-2338407.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
       "category": "Pollo",
       "created_at": 1708361795779,
-      "rating": 4.7
+      "rating": 4.7,
+      "description": "Zesty and redolent whole muscle leg meat patty: Fried to perfect golden tan; quenched with creamy veg mayo and garden-fresh shredded iceberg lettuce. The sandwich is served in fresh, sesame-studded quarter pounder bun.",
+      "ingredients": "Quarter pounder bun crown, Veg sauce, Shredded lettuce, McSpicy chicken patty, Quarter pounder bun heel."
     },
     {
       "id": 2,
@@ -15,7 +17,9 @@
       "price": "19.99",
       "category": "Sandwichs",
       "image": "https://images.pexels.com/photos/1552641/pexels-photo-1552641.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      "rating": 4.5
+      "rating": 4.5,
+      "description": "Crispy and spicy paneer patty with creamy tandoori sauce and crispy lettuce topping.",
+      "ingredients": "Quarter pounder bun crown, Shredded lettuce, Tandoori mayo, Spicy paneer patty, Quarter pounder bun heel."
     },
     {
       "id": 3,
@@ -23,7 +27,9 @@
       "price": "5.99",
       "category": "Sandwichs",
       "image": "https://images.pexels.com/photos/918581/pexels-photo-918581.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      "rating": 4.0
+      "rating": 4.0,
+      "description": "Batter & breaded chicken patty containing green peas, carrots, green beans, onion, potatoes, rice and spices, served in a bun with eggless mayonnaise and lettuce.",
+      "ingredients": "Quarter bun crown, Veg mayonnaise, Shredded lettuce, McChicken patty, Quarter bun heel."
     },
     {
       "id": 4,
@@ -31,7 +37,9 @@
       "price": "7.99",
       "category": "Pizza",
       "image": "https://images.pexels.com/photos/845811/pexels-photo-845811.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      "rating": 3.7
+      "rating": 3.7,
+      "description": "A double-decker toasted Maharaja bun sandwiched with one layer of flame-grilled chicken patty; crunchy iceberg lettuce; shredded onion; and a slice of cheese. Topped with another layer of flame-grilled chicken patty; tomato slices; and crunchy iceberg lettuce infused with harberno sauce.",
+      "ingredients": "Maharaja bun crown, Haberno sauce, Shredded lettuce, Shredded onion, Jalapenos, Flame-grilled chicken patty, Sliced cheese, Maharaja bun heel."
     },
     {
       "id": 5,
@@ -39,7 +47,9 @@
       "price": "12.99",
       "category": "Postres",
       "image": "https://images.pexels.com/photos/291528/pexels-photo-291528.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      "rating": 3.0
+      "rating": 3.0,
+      "description": "Bite-sized pieces of breaded, boneless chicken formed in various shapes (Ball, Boot, Bell & Bone) fried and served hot with smoky Barbeque Sauce or Mustard Sauce.",
+      "ingredients": "Chicken bites."
     },
     {
       "id": 6,
@@ -47,7 +57,9 @@
       "price": "3.99",
       "category": "Bebidas",
       "image": "https://images.pexels.com/photos/50593/coca-cola-cold-drink-soft-drink-coke-50593.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      "rating": 5.0
+      "rating": 5.0,
+      "description": "A blend of assorted vegetables (carrot, beans,capsicum, onion & green peas); mozzarella cheese mixed with tomato sauce; and exotic spices stuffed in rectangle shaped savoury dough. Quick frozen.",
+      "ingredients": "Assorted vegetables, Refined wheat flour, Pizza seasoning"
     },
     {
       "id": 7,
@@ -55,7 +67,9 @@
       "price": "9.99",
       "category": "Bebidas",
       "image": "https://images.pexels.com/photos/9230288/pexels-photo-9230288.jpeg",
-      "rating": 4.8
+      "rating": 4.8,
+      "description": "The crisp, craveable, fan favourite: our World Famous Fries®. These epic fries are crispy and golden on the outside and fluffy on the inside.",
+      "ingredients": "Potato and salt"
     },
     {
       "id": 8,
@@ -63,7 +77,9 @@
       "price": "14.99",
       "category": "Fideos",
       "image": "https://images.pexels.com/photos/2664216/pexels-photo-2664216.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      "rating": 4.0
+      "rating": 4.0,
+      "description": "An iconic premium dessert option. Can be bought as an add-on to make it a 'full meal' or simply as an indulgence.",
+      "ingredients": "Soft serve mix (100% diary), Hazelnut brownie, Hot fudge topping."
     },
     {
       "id": 9,
@@ -71,7 +87,9 @@
       "price": "6.99",
       "category": "Fideos",
       "image": "https://images.pexels.com/photos/16594957/pexels-photo-16594957/free-photo-of-noodle-korean-soup.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      "rating": 3.5
+      "rating": 3.5,
+      "description": "Milk-based frozen dessert with chocolate crispies and chocolate dip.",
+      "ingredients": "Milk fat, Chocolate."
     },
     {
       "id": 10,
@@ -79,7 +97,9 @@
       "price": "11.99",
       "category": "Pollo",
       "image": "https://images.pexels.com/photos/1059943/pexels-photo-1059943.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      "rating": 5.0
+      "rating": 5.0,
+      "description": "Delightful soft-serve with a delectable chocolate topping.",
+      "ingredients": "Soft serve mix (100% diary product), Chocolate dip."
     },
     {
       "id": 11,
@@ -88,7 +108,9 @@
       "image": "https://images.pexels.com/photos/616354/pexels-photo-616354.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
       "category": "Pollo",
       "created_at": 1708361795779,
-      "rating": 4.7
+      "rating": 4.7,
+      "description": "Creamy vanilla soft-serve with strawberry topping.",
+      "ingredients": "Soft serve mix (100% diary), Strawberry topping."
     },
     {
       "id": 12,
@@ -96,7 +118,9 @@
       "price": "29.99",
       "category": "Sandwichs",
       "image": "https://images.pexels.com/photos/1639565/pexels-photo-1639565.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      "rating": 4.0
+      "rating": 4.0,
+      "description": "It's always a good time for tea.",
+      "ingredients": "Tea, Milk"
     },
     {
       "id": 13,
@@ -104,7 +128,9 @@
       "price": "8.99",
       "category": "Postres",
       "image": "https://images.pexels.com/photos/1126359/pexels-photo-1126359.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      "rating": 4.0
+      "rating": 4.0,
+      "description": "A blend of aromatic tea and the fruity flavour of lemon.",
+      "ingredients": "Frambuesas frescas, agua, leche de frutilla."
     },
     {
       "id": 14,
@@ -112,7 +138,9 @@
       "price": "8.99",
       "category": "Pizza",
       "image": "https://images.pexels.com/photos/1166120/pexels-photo-1166120.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      "rating": 3.1
+      "rating": 3.1,
+      "description": "Perfectly brewed for any time of the day.",
+      "ingredients": "Quso, masa piedra, tomate, aceitunas"
     },
     {
       "id": 15,
@@ -120,7 +148,9 @@
       "price": "18.99",
       "category": "Postres",
       "image": "https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      "rating": 5.0
+      "rating": 5.0,
+      "description": "Rich, creamy and indulgent cold coffee.",
+      "ingredients": "harina, base waffle, caramelo."
     },
     {
       "id": 16,
@@ -128,7 +158,9 @@
       "price": "6.99",
       "category": "Bebidas",
       "image": "https://images.pexels.com/photos/990439/pexels-photo-990439.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      "rating": 5.0
+      "rating": 5.0,
+      "description": "Rich, creamy and batido de frutilla fresca.",
+      "ingredients": "Frutilla, leche, agua, azucar"
     },
     {
       "id": 17,
@@ -136,7 +168,9 @@
       "price": "9.99",
       "category": "Bebidas",
       "image": "https://images.pexels.com/photos/9230288/pexels-photo-9230288.jpeg",
-      "rating": 4.8
+      "rating": 4.8,
+      "description": "Refrescante jugo natural de durazno",
+      "ingredients": ""
     },
     {
       "id": 18,
@@ -144,7 +178,9 @@
       "price": "4.99",
       "category": "Bebidas",
       "image": "https://images.pexels.com/photos/414555/pexels-photo-414555.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      "rating": 3.0
+      "rating": 3.0,
+      "description": "Un café capuccino tradicional con esencia de café, leche y espuma cremosa.",
+      "ingredients": "Café, Leche, Espuma"
     },
     {
       "id": 19,
@@ -152,7 +188,9 @@
       "price": "6.99",
       "category": "Bebidas",
       "image": "https://images.pexels.com/photos/2113129/pexels-photo-2113129.jpeg",
-      "rating": 3.5
+      "rating": 3.5,
+      "description": "Un café simple y tradicional, perfecto para cualquier momento del día.",
+      "ingredients": "Café"
     },
     {
       "id": 20,
@@ -160,7 +198,9 @@
       "price": "14.99",
       "category": "Postres",
       "image": "https://images.pexels.com/photos/1026123/pexels-photo-1026123.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      "rating": 5.0
+      "rating": 5.0,
+      "description": "Un delicioso muffin relleno de chocolate y molido, perfecto para cualquier ocasión.",
+      "ingredients": "Harina, Leche, Chocolate, Azúcar"
     }
   ]
 }
