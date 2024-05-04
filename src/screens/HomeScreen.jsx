@@ -102,7 +102,7 @@ export const HomeScreen = () => {
           <FlatList
             data={filteredProducts}
             numColumns={2}
-            renderItem={({ item }) => <ProductCard {...item} />}
+            renderItem={({ item }) => <ProductCard item={item} />}
             keyExtractor={(item, index) => item.id + index.toString}
             ListFooterComponent={<View style={{ marginBottom: 200 }} />}
             showsVerticalScrollIndicator={false}
