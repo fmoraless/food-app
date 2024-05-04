@@ -5,4 +5,6 @@ export default {
   DESSERT: require('../../assets/images/food-categories/dessert.png'),
   NOODLES: require('../../assets/images/food-categories/noodles.png'),
   DRINKS: require('../../assets/images/food-categories/drinks.png'),
+  DELIVERY_TIME: require('../../assets/images/general/delivery_time.png'),
+  DELIVERY_CHARGE: require('../../assets/images/general/delivery_charge.png'),
 };
