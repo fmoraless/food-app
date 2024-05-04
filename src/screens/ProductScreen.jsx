@@ -15,6 +15,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Images from '../constants/Images';
 import { Icon } from 'react-native-paper';
+import Separator from '../components/Separator';
 
 const { height, width } = Dimensions.get('window');
 //const { height, width } = useWindowDimensions();
@@ -50,6 +51,7 @@ export const ProductScreen = ({ route, navigation }) => {
         resizeMode="cover"
       />
       <ScrollView>
+        <Separator height={setWidth(100)} />
         <View style={styles.mainContainer}>
           <View style={styles.titleHeaderContainer}>
             <Text style={styles.titleText}>{item?.name}</Text>
@@ -109,22 +111,27 @@ export const ProductScreen = ({ route, navigation }) => {
       <View style={styles.buttonsContainer}>
         <View style={styles.itemAddContainer}>
           <AntDesign
-            name="minus"
+            name="minuscircle"
             color={Colors.DEFAULT_YELLOW}
-            size={18}
+            size={30}
             onPress={() => console.log('REMOVE FROM CART')}
           />
           <Text style={styles.intemCounText}>0</Text>
           <AntDesign
-            name="plus"
+            name="pluscircle"
             color={Colors.DEFAULT_YELLOW}
-            size={18}
+            size={30}
             onPress={() => console.log('AD TO CART')}
           />
         </View>
-        <TouchableOpacity style={styles.cartButton}>
+        {/* boton carrito */}
+        <TouchableOpacity
+          style={styles.cartButton}
+          onPress={() => console.log('Cart added')}
+          activeOpacity={0.8}>
           <Icon source="cart" color={Colors.DEFAULT_WHITE} size={18} />
-          <Text style={styles.cartButtonText}>Añadir al Carrito</Text>
+          <Text style={styles.cartButtonText}>Añadir</Text>
+          <Text style={styles.cartButtonText}>$6.000</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -149,7 +156,7 @@ const styles = StyleSheet.create({
     color: Colors.DEFAULT_YELLOW,
   },
   mainContainer: {
-    marginTop: 350,
+    //marginTop: 350,
     backgroundColor: Colors.DEFAULT_WHITE,
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
@@ -162,7 +169,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   image: {
-    flex: 0.25,
     position: 'absolute',
     width: setWidth(100),
     height: setWidth(100),
@@ -259,7 +265,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.LIGHT_GREY2,
     height: setHeight(6),
     width: setWidth(30),
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 9,
     borderRadius: 8,
   },
   intemCounText: {
