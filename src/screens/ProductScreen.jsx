@@ -16,6 +16,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Images from '../constants/Images';
 import { Icon } from 'react-native-paper';
 import Separator from '../components/Separator';
+import { FAB } from '../components/FAB';
 
 const { height, width } = Dimensions.get('window');
 //const { height, width } = useWindowDimensions();
@@ -49,6 +50,11 @@ export const ProductScreen = ({ route, navigation }) => {
           uri: item.image,
         }}
         resizeMode="cover"
+      />
+      <FAB
+        iconName="arrow-left"
+        onPress={() => console.log('FAB')}
+        style={{ top: 35, left: 20 }}
       />
       <ScrollView>
         <Separator height={setWidth(100)} />
