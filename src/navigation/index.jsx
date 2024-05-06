@@ -4,28 +4,16 @@ import React from 'react';
 
 import { HomeScreen } from '../screens/HomeScreen';
 import { ProductScreen } from '../screens/ProductScreen';
+import { HomeStackNavigator } from '../navigation/HomeStackNavigator';
+import { BottomTabNavigator } from '../navigation/BottomTabNavigator';
 
 const Stack = createNativeStackNavigator();
 
 export const MainNavigation = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator headerShown={false}>
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="Home"
-          component={HomeScreen}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="Product"
-          component={ProductScreen}
-        />
-      </Stack.Navigator>
+      <BottomTabNavigator />
+      {/*  <HomeStackNavigator /> */}
     </NavigationContainer>
   );
 };
