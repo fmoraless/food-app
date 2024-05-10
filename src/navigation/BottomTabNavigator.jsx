@@ -20,6 +20,8 @@ export const BottomTabNavigator = () => {
       screenOptions={({ route }) => ({
         tabBarShowLabel: false,
         tabBarStyle: styles.tabBar,
+        tabBarActiveTintColor: Colors.DEFAULT_RED,
+        tabBarInactiveTintColor: Colors.DEFAULT_GREY,
       })}>
       <Tab.Screen
         name="Shop"
@@ -54,6 +56,7 @@ export const BottomTabNavigator = () => {
               </View>
             );
           },
+          headerShown: false,
         }}
       />
       <Tab.Screen
@@ -71,6 +74,7 @@ export const BottomTabNavigator = () => {
               </View>
             );
           },
+          headerShown: false,
         }}
       />
     </Tab.Navigator>
@@ -82,7 +86,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.DEFAULT_WHITE,
     shadowColor: Colors.DEFAULT_BLACK,
     elevation: 4,
-    borderRadius: 15,
+    //position: 'absolute',
+    borderTopRightRadius: 25,
+    borderTopLeftRadius: 25,
     height: 60,
   },
 });

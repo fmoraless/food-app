@@ -1,0 +1,70 @@
+[
+  {
+    "id": 1,
+    "name": "Pollo Asado",
+    "price": "11.000",
+    "image": "https://images.pexels.com/photos/2338407/pexels-photo-2338407.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "category": "Pollo",
+    "created_at": 1708361795779,
+    "rating": 4.7,
+    "description": "Zesty and redolent whole muscle leg meat patty: Fried to perfect golden tan; quenched with creamy veg mayo and garden-fresh shredded iceberg lettuce. The sandwich is served in fresh, sesame-studded quarter pounder bun.",
+    "ingredients": "Quarter pounder bun crown, Veg sauce, Shredded lettuce, McSpicy chicken patty, Quarter pounder bun heel.",
+    "quantiy": 2
+  },
+  {
+    "id": 2,
+    "name": "Hamburgesa 1",
+    "price": "6.000",
+    "category": "Sandwichs",
+    "image": "https://images.pexels.com/photos/1552641/pexels-photo-1552641.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "rating": 4.5,
+    "description": "Crispy and spicy paneer patty with creamy tandoori sauce and crispy lettuce topping.",
+    "ingredients": "Quarter pounder bun crown, Shredded lettuce, Tandoori mayo, Spicy paneer patty, Quarter pounder bun heel.",
+    "quantiy": 1
+  },
+  {
+    "id": 3,
+    "name": "Hamburguesa 33",
+    "price": "5.000",
+    "category": "Sandwichs",
+    "image": "https://images.pexels.com/photos/918581/pexels-photo-918581.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "rating": 4.0,
+    "description": "Batter & breaded chicken patty containing green peas, carrots, green beans, onion, potatoes, rice and spices, served in a bun with eggless mayonnaise and lettuce.",
+    "ingredients": "Quarter bun crown, Veg mayonnaise, Shredded lettuce, McChicken patty, Quarter bun heel.",
+    "quantiy": 2
+  },
+  {
+    "id": 4,
+    "name": "Pollo Asado",
+    "price": "11.000",
+    "image": "https://images.pexels.com/photos/2338407/pexels-photo-2338407.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "category": "Pollo",
+    "created_at": 1708361795779,
+    "rating": 4.7,
+    "description": "Zesty and redolent whole muscle leg meat patty: Fried to perfect golden tan; quenched with creamy veg mayo and garden-fresh shredded iceberg lettuce. The sandwich is served in fresh, sesame-studded quarter pounder bun.",
+    "ingredients": "Quarter pounder bun crown, Veg sauce, Shredded lettuce, McSpicy chicken patty, Quarter pounder bun heel.",
+    "quantiy": 2
+  },
+  {
+    "id": 5,
+    "name": "Hamburgesa 1",
+    "price": "6.000",
+    "category": "Sandwichs",
+    "image": "https://images.pexels.com/photos/1552641/pexels-photo-1552641.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "rating": 4.5,
+    "description": "Crispy and spicy paneer patty with creamy tandoori sauce and crispy lettuce topping.",
+    "ingredients": "Quarter pounder bun crown, Shredded lettuce, Tandoori mayo, Spicy paneer patty, Quarter pounder bun heel.",
+    "quantiy": 1
+  },
+  {
+    "id": 6,
+    "name": "Hamburguesa 33",
+    "price": "5.000",
+    "category": "Sandwichs",
+    "image": "https://images.pexels.com/photos/918581/pexels-photo-918581.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "rating": 4.0,
+    "description": "Batter & breaded chicken patty containing green peas, carrots, green beans, onion, potatoes, rice and spices, served in a bun with eggless mayonnaise and lettuce.",
+    "ingredients": "Quarter bun crown, Veg mayonnaise, Shredded lettuce, McChicken patty, Quarter bun heel.",
+    "quantiy": 2
+  }
+]

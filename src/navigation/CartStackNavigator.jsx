@@ -11,7 +11,13 @@ export const CartStack = () => {
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name="CartScreen" component={CartScreen} />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="CartScreen"
+        component={CartScreen}
+      />
     </Stack.Navigator>
   );
 };
