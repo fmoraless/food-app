@@ -51,6 +51,8 @@ export const HomeScreen = () => {
     filterProducts();
   }, [searchQuery, activeCategory]);
 
+  const ListFooterComponent = () => <View style={{ marginBottom: 180 }} />;
+
   return (
     <View style={styles.container}>
       <StatusBar
@@ -104,8 +106,8 @@ export const HomeScreen = () => {
             numColumns={2}
             renderItem={({ item }) => <ProductCard item={item} />}
             keyExtractor={(item, index) => item.id + index.toString}
-            ListFooterComponent={<View style={{ marginBottom: 200 }} />}
             showsVerticalScrollIndicator={false}
+            ListFooterComponent={<ListFooterComponent />}
           />
         </View>
       </View>
