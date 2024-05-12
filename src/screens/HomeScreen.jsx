@@ -19,13 +19,26 @@ import { Mock } from '../constants';
 import CategoryMenuItem from '../components/categories/CategoryMenuItem';
 import { ProductCard } from '../components/products/ProductCard';
 import responseProducts from '../mocked/products.json';
+import { useSelector, useDispatch } from 'react-redux';
+import { setIdSelected } from '../../src/features/Shop/shopSlice';
 
 export const HomeScreen = () => {
+  const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeCategory, setActiveCategory] = useState('');
+  //const [activeCategory, setActiveCategory] = useState('');
   const products = responseProducts.products;
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [productos, setProductos] = useState(products);
+
+  const activeCategory = useSelector(
+    (state) => state.shop.value.categorySelected,
+  );
+
+  //const searchQuery = useSelector((state) => state.shop.value.itemIdSelected);
+
+  /* const setSearchQuery = () => {
+    dispatch(setIdSelected(searchQuery));
+  }; */
 
   // TODO: aplicar Debounce
 
@@ -85,7 +98,7 @@ export const HomeScreen = () => {
               name={name}
               logo={logo}
               activeCategory={activeCategory}
-              setActiveCategory={setActiveCategory}
+              //setActiveCategory={setActiveCategory}
             />
           ))}
         </View>

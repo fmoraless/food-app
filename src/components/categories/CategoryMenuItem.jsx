@@ -4,6 +4,8 @@ import Images from '../../constants/Images';
 import Colors from '../../constants/Colors';
 import { Icons } from '../../constants/Icons';
 import { Icon, MD3Colors } from 'react-native-paper';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCategorySelected } from '../../features/Shop/shopSlice';
 
 const CategoryMenuItem = ({
   name,
@@ -14,14 +16,17 @@ const CategoryMenuItem = ({
   // console.log(logo);
   const icono = Icons[logo];
   const [isActive, setIsActive] = useState(false);
+  const dispatch = useDispatch();
 
   const handlePress = () => {
     if (isActive) {
       setIsActive(false);
-      setActiveCategory('');
+      //setActiveCategory('');
+      dispatch(setCategorySelected(''));
     } else {
       setIsActive(true);
-      setActiveCategory(name);
+      //setActiveCategory(name);
+      dispatch(setCategorySelected(name));
     }
   };
 
