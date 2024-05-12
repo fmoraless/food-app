@@ -53,9 +53,10 @@ export const ProductScreen = ({ route, navigation }) => {
       />
       <FAB
         iconName="arrow-left"
-        onPress={() => console.log('FAB')}
+        onPress={() => navigation.goBack()}
         style={{ top: 35, left: 20 }}
       />
+
       <ScrollView>
         <Separator height={setWidth(100)} />
         <View style={styles.mainContainer}>

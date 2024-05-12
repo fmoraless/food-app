@@ -10,6 +10,8 @@ import {
 import { Icon } from 'react-native-paper';
 import Colors from '../../constants/Colors';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import { setIdSelected } from '../../features/Shop/shopSlice';
 
 export const ProductCard = ({ item }) => {
   // console.log('item en ProductCard', item);
@@ -17,11 +19,16 @@ export const ProductCard = ({ item }) => {
   const { height, width } = useWindowDimensions();
   const DYNAMIC_WIDTH = width / 2 - 30;
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
+  const handleNavigate = () => {
+    dispatch(setIdSelected(item));
+    navigation.navigate('Product', { item });
+  };
   // console.log(height, DYNAMIC_WIDTH);
   return (
     <View style={styles.cardContainer}>
-      <Pressable onPress={() => navigation.navigate('Product', { item })}>
+      <Pressable onPress={handleNavigate}>
         <Image
           source={{ uri: item.image }}
           resizeMode="cover"
