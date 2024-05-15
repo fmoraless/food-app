@@ -13,7 +13,6 @@ const CategoryMenuItem = ({
   activeCategory,
   setActiveCategory,
 }) => {
-  // console.log(logo);
   const icono = Icons[logo];
   const [isActive, setIsActive] = useState(false);
   const dispatch = useDispatch();
@@ -47,6 +46,8 @@ const CategoryMenuItem = ({
 const styles = StyleSheet.create({
   category: (marginTop = 0) => ({
     alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: 5,
     marginTop,
   }),
   categoryIcon: (isActive) => ({
