@@ -34,6 +34,7 @@ export const ProductScreen = ({ route, navigation }) => {
   const { item } = route.params;
   // console.log({ PARAMS: item });
   const [selectedSubMenu, setSelectedSubMenu] = useState('Details');
+  const [quantity, setQuantity] = useState(1);
 
   //const [currentHeight, setCurrentHeight] = useState(null);
 
@@ -123,7 +124,7 @@ export const ProductScreen = ({ route, navigation }) => {
             size={30}
             onPress={() => console.log('REMOVE FROM CART')}
           />
-          <Text style={styles.intemCounText}>0</Text>
+          <Text style={styles.intemCounText}>{quantity}</Text>
           <AntDesign
             name="pluscircle"
             color={Colors.DEFAULT_YELLOW}
