@@ -21,9 +21,17 @@ import { ProductCard } from '../components/products/ProductCard';
 import responseProducts from '../mocked/products.json';
 import { useSelector, useDispatch } from 'react-redux';
 import { setIdSelected } from '../../src/features/Shop/shopSlice';
+import {
+  useGetCategoriesQuery,
+  useGetProductsByCategoryQuery,
+} from '../services/shopService';
+import { FullScreenLoader } from '../components/FullScreenLoader';
 
 export const HomeScreen = () => {
   const dispatch = useDispatch();
+  const { data: categories, error, isLoading } = useGetCategoriesQuery();
+
+  //console.log({ 'LA DATA': categories });
   const [searchQuery, setSearchQuery] = useState('');
   //const [activeCategory, setActiveCategory] = useState('');
   const products = responseProducts.products;
@@ -34,7 +42,14 @@ export const HomeScreen = () => {
     (state) => state.shop.value.categorySelected,
   );
 
+  // TODO: Corregir get productos filtrados por categoria desde firebase
+  /* const {
+    data: productsFetched,
+    error: errorOnGetProducts,
+    isLoading: loadingProducts,
+  } = useGetProductsByCategoryQuery(activeCategory);
   //const searchQuery = useSelector((state) => state.shop.value.itemIdSelected);
+  console.log({ productosPorCategoria: productsFetched }); */
 
   /* const setSearchQuery = () => {
     dispatch(setIdSelected(searchQuery));
@@ -91,8 +106,11 @@ export const HomeScreen = () => {
           </View>
         </View>
 
-        <View style={styles.categoriesContainer}>
-          {Mock.CATEGORIES.map(({ name, logo }) => (
+        {isLoading ? (
+          <FullScreenLoader />
+        ) : (
+          <View style={styles.categoriesContainer}>
+            {/* {categories.map(({ name, logo }) => (
             <CategoryMenuItem
               key={name}
               name={name}
@@ -100,30 +118,48 @@ export const HomeScreen = () => {
               activeCategory={activeCategory}
               //setActiveCategory={setActiveCategory}
             />
-          ))}
-        </View>
+          ))} */}
+            <FlatList
+              horizontal={true}
+              data={categories}
+              renderItem={({ item }) => (
+                <CategoryMenuItem
+                  key={item.name}
+                  name={item.name}
+                  logo={item.logo}
+                />
+              )}
+              keyExtractor={(item, index) => item.name + index.toString}
+              showsHorizontalScrollIndicator={false}
+              ItemSeparatorComponent={() => <View style={{ width: 30 }} />}
+            />
+          </View>
+        )}
       </View>
-
-      <View
-        style={{
-          marginTop: 40,
-        }}>
+      {isLoading ? (
+        <FullScreenLoader />
+      ) : (
         <View
           style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginHorizontal: 8,
+            marginTop: 40,
           }}>
-          <FlatList
-            data={filteredProducts}
-            numColumns={2}
-            renderItem={({ item }) => <ProductCard item={item} />}
-            keyExtractor={(item, index) => item.id + index.toString}
-            showsVerticalScrollIndicator={false}
-            ListFooterComponent={<ListFooterComponent />}
-          />
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginHorizontal: 8,
+            }}>
+            <FlatList
+              data={filteredProducts}
+              numColumns={2}
+              renderItem={({ item }) => <ProductCard item={item} />}
+              keyExtractor={(item, index) => item.id + index.toString}
+              showsVerticalScrollIndicator={false}
+              ListFooterComponent={<ListFooterComponent />}
+            />
+          </View>
         </View>
-      </View>
+      )}
     </View>
   );
 };
@@ -155,9 +191,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   categoriesContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    flexWrap: 'wrap',
+    /* flexDirection: 'row',
+    justifyContent: 'space-evenly', */
     marginTop: 20,
+    marginLeft: 25,
   },
   searchSection: {
     flexDirection: 'row',
