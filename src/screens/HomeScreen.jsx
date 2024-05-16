@@ -20,10 +20,14 @@ import CategoryMenuItem from '../components/categories/CategoryMenuItem';
 import { ProductCard } from '../components/products/ProductCard';
 import responseProducts from '../mocked/products.json';
 import { useSelector, useDispatch } from 'react-redux';
-import { setIdSelected } from '../../src/features/Shop/shopSlice';
+import {
+  setIdSelected,
+  setProductsFiltered,
+} from '../../src/features/Shop/shopSlice';
 import {
   useGetCategoriesQuery,
   useGetProductsByCategoryQuery,
+  useGetProductsQuery,
 } from '../services/shopService';
 import { FullScreenLoader } from '../components/FullScreenLoader';
 
@@ -42,14 +46,26 @@ export const HomeScreen = () => {
     (state) => state.shop.value.categorySelected,
   );
 
+  const productsFiltered = useSelector(
+    (state) => state.shop.value.productsFiltered,
+  );
+
+  console.log(filteredProducts);
   // TODO: Corregir get productos filtrados por categoria desde firebase
-  /* const {
+  const {
     data: productsFetched,
     error: errorOnGetProducts,
     isLoading: loadingProducts,
   } = useGetProductsByCategoryQuery(activeCategory);
   //const searchQuery = useSelector((state) => state.shop.value.itemIdSelected);
-  console.log({ productosPorCategoria: productsFetched }); */
+  console.log({ productosFetched: productsFetched });
+
+  /*   const {
+    data: allProductsFetched,
+    error: errorOnGetProducts,
+    isLoading: productsIsLoading,
+  } = useGetProductsQuery(); */
+  //console.log({ allProducts: allProductsFetched });
 
   /* const setSearchQuery = () => {
     dispatch(setIdSelected(searchQuery));
@@ -58,7 +74,7 @@ export const HomeScreen = () => {
   // TODO: aplicar Debounce
 
   const filterProducts = () => {
-    let filtered = productos;
+    let filtered = productsFetched;
 
     if (searchQuery) {
       filtered = filtered.filter((product) =>
@@ -77,7 +93,7 @@ export const HomeScreen = () => {
 
   useEffect(() => {
     filterProducts();
-  }, [searchQuery, activeCategory]);
+  }, [searchQuery, activeCategory, productsFetched]);
 
   const ListFooterComponent = () => <View style={{ marginBottom: 180 }} />;
 
@@ -136,7 +152,7 @@ export const HomeScreen = () => {
           </View>
         )}
       </View>
-      {isLoading ? (
+      {loadingProducts ? (
         <FullScreenLoader />
       ) : (
         <View
