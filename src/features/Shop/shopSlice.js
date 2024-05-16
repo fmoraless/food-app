@@ -15,9 +15,13 @@ const shopSlice = createSlice({
     setIdSelected: (state, { payload }) => {
       state.value.itemIdSelected = payload;
     },
+    setProductsFiltered: (state, action) => {
+      state.value.productsFiltered = action.payload;
+    },
   },
 });
 
-export const { setCategorySelected, setIdSelected } = shopSlice.actions;
+export const { setCategorySelected, setIdSelected, setProductsFiltered } =
+  shopSlice.actions;
 
 export default shopSlice.reducer;
