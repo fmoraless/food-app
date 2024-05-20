@@ -18,7 +18,7 @@ import Colors from '../constants/Colors';
 import { Mock } from '../constants';
 import CategoryMenuItem from '../components/categories/CategoryMenuItem';
 import { ProductCard } from '../components/products/ProductCard';
-import responseProducts from '../mocked/products.json';
+//import responseProducts from '../mocked/products.json';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setIdSelected,
@@ -38,9 +38,9 @@ export const HomeScreen = () => {
   //console.log({ 'LA DATA': categories });
   const [searchQuery, setSearchQuery] = useState('');
   //const [activeCategory, setActiveCategory] = useState('');
-  const products = responseProducts.products;
+  //const products = responseProducts.products;
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [productos, setProductos] = useState(products);
+  //const [productos, setProductos] = useState(products);
 
   const activeCategory = useSelector(
     (state) => state.shop.value.categorySelected,
@@ -50,15 +50,12 @@ export const HomeScreen = () => {
     (state) => state.shop.value.productsFiltered,
   );
 
-  console.log(filteredProducts);
-  // TODO: Corregir get productos filtrados por categoria desde firebase
+  //console.log(filteredProducts);
   const {
     data: productsFetched,
     error: errorOnGetProducts,
     isLoading: loadingProducts,
   } = useGetProductsByCategoryQuery(activeCategory);
-  //const searchQuery = useSelector((state) => state.shop.value.itemIdSelected);
-  console.log({ productosFetched: productsFetched });
 
   /*   const {
     data: allProductsFetched,
