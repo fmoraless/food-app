@@ -12,6 +12,9 @@ import {
 import Colors from '../../constants/Colors';
 import { useNavigation } from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { Ionicons } from '@expo/vector-icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeCartItem } from '../../features/Cart/cartSlice';
 
 const { height, width } = Dimensions.get('window');
 
@@ -21,7 +24,12 @@ const setWidth = (w) => (width / 100) * w;
 
 export const CartItem = ({ item }) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [itemCount, setItemCount] = useState(1);
+
+  const handleRemoveItemFromCart = () => {
+    dispatch(removeCartItem({ ...item }));
+  };
 
   return (
     <View style={styles.container}>
@@ -45,26 +53,29 @@ export const CartItem = ({ item }) => {
           </Text>
         </TouchableOpacity>
         <View style={styles.footerContainer}>
-          <Text style={styles.priceText}>${item.price}</Text>
+          <Text style={styles.priceText}>${item.itemTotal}</Text>
           <View style={styles.itemAddContainer}>
             {itemCount > 0 ? (
               <>
-                <AntDesign
+                {/* <AntDesign
                   name="minus"
                   color={Colors.DEFAULT_YELLOW}
                   size={18}
                   onPress={() => console.log('item')}
-                />
-                <Text style={styles.itemCountText}>{itemCount}</Text>
+                /> */}
+                <Text style={styles.itemCountText}>{item.quantity}</Text>
               </>
             ) : null}
-            <AntDesign
+            {/* <AntDesign
               name="plus"
               color={Colors.DEFAULT_YELLOW}
               size={18}
               onPress={() => addToCart(id)}
-            />
+            /> */}
           </View>
+          <Pressable onPress={handleRemoveItemFromCart}>
+            <Ionicons name="trash-sharp" size={23} color={Colors.DEFAULT_RED} />
+          </Pressable>
         </View>
       </View>
     </View>
@@ -132,6 +143,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Medium',
     fontSize: 14,
     lineHeight: 14 * 1.4,
-    marginHorizontal: 8,
+    //marginHorizontal: ,
   },
 });

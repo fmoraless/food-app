@@ -19,7 +19,8 @@ import Separator from '../components/Separator';
 import { FAB } from '../components/FAB';
 import { useGetProductByIdQuery } from '../services/shopService';
 import { FullScreenLoader } from '../components/FullScreenLoader';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { addCartItem } from '../features/Cart/cartSlice';
 
 const { height, width } = Dimensions.get('window');
 //const { height, width } = useWindowDimensions();
@@ -35,6 +36,7 @@ const setWidth = (w) => (width / 100) * w;
 
 export const ProductScreen = ({ route, navigation }) => {
   const { item } = route.params;
+  const dispatch = useDispatch();
   const {
     data: product,
     error,
@@ -48,7 +50,7 @@ export const ProductScreen = ({ route, navigation }) => {
   const [disabled, setDisabled] = useState(false);
 
   //console.log({ priceToAdd: priceToAdd });
-  // todo: Mover a un helper
+  // TODO: Mover a un helper
   const formattedPrice = (price) => {
     const formatter = new Intl.NumberFormat('es-CL');
     return formatter.format(price);
@@ -63,17 +65,10 @@ export const ProductScreen = ({ route, navigation }) => {
     }
   };
 
-  /* const calculatePriceToAdd = () => {
-    console.log({ quantity: quantity });
-    const subtotal = quantity * product?.price;
-    console.log({ subtotal: subtotal });
-    setPriceToAdd(subtotal);
-    //return quantity * price;
-  }; */
-
-  /* useEffect(() => {
-    calculatePriceToAdd();
-  }, [quantity]); */
+  const handleAddCart = () => {
+    dispatch(addCartItem({ ...product, quantity: quantity, itemTotal: total }));
+    navigation.popToTop();
+  };
 
   useEffect(() => {
     if (product) {
@@ -206,7 +201,7 @@ export const ProductScreen = ({ route, navigation }) => {
             {/* boton carrito */}
             <TouchableOpacity
               style={styles.cartButton}
-              onPress={() => console.log('Cart added')}
+              onPress={handleAddCart}
               activeOpacity={0.8}>
               <Icon source="cart" color={Colors.DEFAULT_WHITE} size={18} />
               <Text style={styles.cartButtonText}>Añadir</Text>
