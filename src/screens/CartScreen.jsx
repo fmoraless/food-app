@@ -20,6 +20,7 @@ import { CartItem } from '../components/cart/CartItem';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Images from '../constants/Images';
+import { useSelector } from 'react-redux';
 
 const { height, width } = Dimensions.get('window');
 
@@ -30,10 +31,19 @@ const setWidth = (w) => (width / 100) * w;
 export const CartScreen = () => {
   const navigation = useNavigation();
   //  console.log('CartSData', cartData);
+  const { items: cartData, total } = useSelector((state) => state.cart.value);
+  //console.log({ itemsCarrito: cartData, totalCarrito: total });
 
   const onPress = () => {
     console.log('Presend');
   };
+
+  // TODO: Mover a un helper
+  const formattedPrice = (price) => {
+    const formatter = new Intl.NumberFormat('es-CL');
+    return formatter.format(price);
+  };
+
   const ListFooterComponent = () => <View style={{ marginBottom: 50 }} />;
 
   return (
@@ -70,20 +80,20 @@ export const CartScreen = () => {
             <View style={styles.amountContainer}>
               <View style={styles.amountSubContainer}>
                 <Text style={styles.amountLabelText}>Sub total</Text>
-                <Text style={styles.amountText}>$22.000</Text>
+                <Text style={styles.amountText}>${formattedPrice(total)}</Text>
               </View>
               <View style={styles.amountSubContainer}>
                 <Text style={styles.amountLabelText}>Descuento</Text>
                 <Text style={styles.amountText}>$0</Text>
               </View>
               <View style={styles.amountSubContainer}>
-                <Text style={styles.amountLabelText}>Consto envío</Text>
-                <Text style={styles.amountText}>$2.000</Text>
+                <Text style={styles.amountLabelText}>Costo envío</Text>
+                <Text style={styles.amountText}>$0</Text>
               </View>
             </View>
             <View style={styles.totalContainer}>
               <Text style={styles.totalText}>Total</Text>
-              <Text style={styles.totalText}>$24.000</Text>
+              <Text style={styles.totalText}>${formattedPrice(total)}</Text>
             </View>
 
             <TouchableOpacity style={styles.checkoutButton}>
@@ -95,7 +105,9 @@ export const CartScreen = () => {
                 />
                 <Text style={styles.checkoutText}>Pagar</Text>
               </View>
-              <Text style={styles.checkoutText}>$24.000</Text>
+              <Text style={styles.checkoutText}>
+                ${total !== 0 ? formattedPrice(total) : 0}
+              </Text>
             </TouchableOpacity>
             <Separator height={setHeight(8)} />
           </ScrollView>
