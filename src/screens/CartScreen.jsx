@@ -9,6 +9,7 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import Colors from '../constants/Colors';
 import Separator from '../components/Separator';
@@ -20,7 +21,9 @@ import { CartItem } from '../components/cart/CartItem';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Images from '../constants/Images';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { usePostOrderMutation } from '../services/shopService';
+import { clearCart } from '../features/Cart/cartSlice';
 
 const { height, width } = Dimensions.get('window');
 
@@ -30,12 +33,36 @@ const setWidth = (w) => (width / 100) * w;
 
 export const CartScreen = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   //  console.log('CartSData', cartData);
   const { items: cartData, total } = useSelector((state) => state.cart.value);
   //console.log({ itemsCarrito: cartData, totalCarrito: total });
+  const [triggerPostOrder, result] = usePostOrderMutation();
+
+  console.log({ Result: result });
 
   const onPress = () => {
     console.log('Presend');
+  };
+
+  const onConfirmOrder = async () => {
+    const orderData = {
+      items: cartData,
+      user: 'Francisco',
+      total,
+      createdAt: new Date().toLocaleString(),
+    };
+
+    const response = await triggerPostOrder(orderData);
+    // TODO: Revisar como manejar la respuesta
+    /* console.log({ RESPONSE: result.isSuccess });
+    if (result.isSuccess) {
+      Alert.alert('Orden creada existosamente');
+      dispatch(clearCart());
+      navigation.popToTop();
+    } else {
+      Alert.alert('Hubo un error');
+    } */
   };
 
   // TODO: Mover a un helper
@@ -96,7 +123,9 @@ export const CartScreen = () => {
               <Text style={styles.totalText}>${formattedPrice(total)}</Text>
             </View>
 
-            <TouchableOpacity style={styles.checkoutButton}>
+            <TouchableOpacity
+              style={styles.checkoutButton}
+              onPress={onConfirmOrder}>
               <View style={styles.rowAndCenter}>
                 <Ionicons
                   name="cart-outline"
