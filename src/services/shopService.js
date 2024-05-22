@@ -1,0 +1,51 @@
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { baseUrl } from '../database/realtimeDB';
+
+export const shopApi = createApi({
+  reducerPath: 'shopApi',
+  baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
+  endpoints: (builder) => ({
+    getCategories: builder.query({
+      query: () => `categories.json`,
+    }),
+    getProducts: builder.query({
+      query: () => `productos.json`,
+    }),
+    getProductsByCategory: builder.query({
+      query: (category) =>
+        `productos.json?orderBy="category"&equalsTo="${category}"`,
+      transformResponse: (response) => {
+        //console.log({ resFromService: response });
+        const responseTransformed = Object.values(response);
+        return responseTransformed;
+      },
+    }),
+    getProductById: builder.query({
+      query: (productId) => `productos.json?orderBy="id"&equalTo=${productId}`,
+      transformResponse: (response) => {
+        const responseTransformed = Object.values(response);
+        if (responseTransformed.length) return responseTransformed[0];
+        return responseTransformed;
+      },
+    }),
+    postOrder: builder.mutation({
+      query: ({ ...order }) => ({
+        url: 'orders.json',
+        method: 'POST',
+        body: order,
+      }),
+    }),
+    getOrders: builder.query({
+      query: () => `orders.json`,
+    }),
+  }),
+});
+
+export const {
+  useGetCategoriesQuery,
+  useGetProductsQuery,
+  useGetProductByIdQuery,
+  useGetProductsByCategoryQuery,
+  usePostOrderMutation,
+  useGetOrdersQuery,
+} = shopApi;

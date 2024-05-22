@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -14,8 +14,13 @@ import Colors from '../constants/Colors';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Images from '../constants/Images';
-import { Icon } from 'react-native-paper';
+import { ActivityIndicator, Icon } from 'react-native-paper';
 import Separator from '../components/Separator';
+import { FAB } from '../components/FAB';
+import { useGetProductByIdQuery } from '../services/shopService';
+import { FullScreenLoader } from '../components/FullScreenLoader';
+import { useDispatch, useSelector } from 'react-redux';
+import { addCartItem } from '../features/Cart/cartSlice';
 
 const { height, width } = Dimensions.get('window');
 //const { height, width } = useWindowDimensions();
@@ -31,109 +36,182 @@ const setWidth = (w) => (width / 100) * w;
 
 export const ProductScreen = ({ route, navigation }) => {
   const { item } = route.params;
-  // console.log({ PARAMS: item });
-  const [selectedSubMenu, setSelectedSubMenu] = useState('Details');
+  const dispatch = useDispatch();
+  const {
+    data: product,
+    error,
+    isLoading,
+  } = useGetProductByIdQuery(parseInt(item.id));
 
-  //const [currentHeight, setCurrentHeight] = useState(null);
+  const [selectedSubMenu, setSelectedSubMenu] = useState('Details');
+  const [quantity, setQuantity] = useState(1);
+  //const [priceToAdd, setPriceToAdd] = useState(price);
+  const [total, setTotal] = useState(0);
+  const [disabled, setDisabled] = useState(false);
+
+  //console.log({ priceToAdd: priceToAdd });
+  // TODO: Mover a un helper
+  const formattedPrice = (price) => {
+    const formatter = new Intl.NumberFormat('es-CL');
+    return formatter.format(price);
+  };
+
+  const increment = () => {
+    setQuantity((prev) => prev + 1);
+  };
+  const decrease = () => {
+    if (quantity > 1) {
+      setQuantity((prev) => prev - 1);
+    }
+  };
+
+  const handleAddCart = () => {
+    dispatch(addCartItem({ ...product, quantity: quantity, itemTotal: total }));
+    navigation.popToTop();
+  };
+
+  useEffect(() => {
+    if (product) {
+      setTotal(product.price * quantity);
+    }
+  }, [product, quantity]);
 
   return (
     <View style={styles.container}>
-      <StatusBar
-        barStyle="dark-content"
-        translucent
-        backgroundColor="transparent"
-      />
-      <Image
-        style={styles.image}
-        source={{
-          uri: item.image,
-        }}
-        resizeMode="cover"
-      />
-      <ScrollView>
-        <Separator height={setWidth(100)} />
-        <View style={styles.mainContainer}>
-          <View style={styles.titleHeaderContainer}>
-            <Text style={styles.titleText}>{item?.name}</Text>
-            <Text style={styles.priceText}>${item?.price}</Text>
-          </View>
-          <View style={styles.subHeaderContainer}>
-            <View style={styles.rowAndCenter}>
-              <FontAwesome
-                name="star"
-                size={20}
-                color={Colors.DEFAULT_YELLOW}
+      {isLoading ? (
+        <View
+          style={{
+            flex: 2,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 200,
+          }}>
+          <FullScreenLoader />
+        </View>
+      ) : (
+        <>
+          <StatusBar
+            barStyle="dark-content"
+            translucent
+            backgroundColor="transparent"
+          />
+
+          <Image
+            style={styles.image}
+            source={{
+              uri: product.image,
+            }}
+            resizeMode="cover"
+          />
+
+          <FAB
+            iconName="arrow-left"
+            onPress={() => navigation.goBack()}
+            style={{ top: 35, left: 20 }}
+          />
+
+          <ScrollView>
+            <Separator height={setWidth(100)} />
+            <View style={styles.mainContainer}>
+              <View style={styles.titleHeaderContainer}>
+                <Text style={styles.titleText}>{product?.name}</Text>
+                <Text style={styles.priceText}>
+                  ${formattedPrice(product?.price)}
+                </Text>
+              </View>
+              <View style={styles.subHeaderContainer}>
+                <View style={styles.rowAndCenter}>
+                  <FontAwesome
+                    name="star"
+                    size={20}
+                    color={Colors.DEFAULT_YELLOW}
+                  />
+                  <Text style={styles.ratingText}>4.2</Text>
+                  <Text style={styles.reviewsText}>(255)</Text>
+                </View>
+                <View style={styles.rowAndCenter}>
+                  <Image
+                    style={styles.iconImage}
+                    source={Images.DELIVERY_TIME}
+                  />
+                  <Text style={styles.deliveryText}>20 min</Text>
+                </View>
+                <View style={styles.rowAndCenter}>
+                  <Image
+                    style={styles.iconImage}
+                    source={Images.DELIVERY_CHARGE}
+                  />
+                  <Text style={styles.deliveryText}>Free Delivery</Text>
+                </View>
+              </View>
+              <View style={styles.subMenuContainer}>
+                <TouchableOpacity
+                  style={styles.subMenuButtonContainer}
+                  onPress={() => setSelectedSubMenu('Details')}>
+                  <Text style={setStyle(selectedSubMenu === 'Details')}>
+                    Detalles
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.subMenuButtonContainer}
+                  onPress={() => setSelectedSubMenu('Reviews')}>
+                  <Text style={setStyle(selectedSubMenu === 'Reviews')}>
+                    Valoraciones
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.detailsContainer}>
+                {product?.description ? (
+                  <>
+                    <Text style={styles.detailHeader}>Descripción</Text>
+                    <Text style={styles.detailContent}>
+                      {product?.description}
+                    </Text>
+                  </>
+                ) : null}
+                {product?.ingredients ? (
+                  <>
+                    <Text style={styles.detailHeader}>Ingredientes</Text>
+                    <Text style={styles.detailContent}>
+                      {product?.ingredients}
+                    </Text>
+                  </>
+                ) : null}
+              </View>
+            </View>
+          </ScrollView>
+          <View style={styles.buttonsContainer}>
+            <View style={styles.itemAddContainer}>
+              <AntDesign
+                name="minuscircle"
+                color={
+                  quantity === 1 ? Colors.DEFAULT_GREY : Colors.DEFAULT_YELLOW
+                }
+                size={30}
+                onPress={decrease}
               />
-              <Text style={styles.ratingText}>4.2</Text>
-              <Text style={styles.reviewsText}>(255)</Text>
+              <Text style={styles.intemCounText}>{quantity}</Text>
+              <AntDesign
+                name="pluscircle"
+                color={Colors.DEFAULT_YELLOW}
+                size={30}
+                onPress={increment}
+              />
             </View>
-            <View style={styles.rowAndCenter}>
-              <Image style={styles.iconImage} source={Images.DELIVERY_TIME} />
-              <Text style={styles.deliveryText}>20 min</Text>
-            </View>
-            <View style={styles.rowAndCenter}>
-              <Image style={styles.iconImage} source={Images.DELIVERY_CHARGE} />
-              <Text style={styles.deliveryText}>Free Delivery</Text>
-            </View>
-          </View>
-          <View style={styles.subMenuContainer}>
+            {/* boton carrito */}
             <TouchableOpacity
-              style={styles.subMenuButtonContainer}
-              onPress={() => setSelectedSubMenu('Details')}>
-              <Text style={setStyle(selectedSubMenu === 'Details')}>
-                Detalles
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.subMenuButtonContainer}
-              onPress={() => setSelectedSubMenu('Reviews')}>
-              <Text style={setStyle(selectedSubMenu === 'Reviews')}>
-                Valoraciones
+              style={styles.cartButton}
+              onPress={handleAddCart}
+              activeOpacity={0.8}>
+              <Icon source="cart" color={Colors.DEFAULT_WHITE} size={18} />
+              <Text style={styles.cartButtonText}>Añadir</Text>
+              <Text style={styles.cartButtonText}>
+                ${formattedPrice(total)}
               </Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.detailsContainer}>
-            {item?.description ? (
-              <>
-                <Text style={styles.detailHeader}>Descripción</Text>
-                <Text style={styles.detailContent}>{item?.description}</Text>
-              </>
-            ) : null}
-            {item?.ingredients ? (
-              <>
-                <Text style={styles.detailHeader}>Ingredientes</Text>
-                <Text style={styles.detailContent}>{item?.ingredients}</Text>
-              </>
-            ) : null}
-          </View>
-        </View>
-      </ScrollView>
-      <View style={styles.buttonsContainer}>
-        <View style={styles.itemAddContainer}>
-          <AntDesign
-            name="minuscircle"
-            color={Colors.DEFAULT_YELLOW}
-            size={30}
-            onPress={() => console.log('REMOVE FROM CART')}
-          />
-          <Text style={styles.intemCounText}>0</Text>
-          <AntDesign
-            name="pluscircle"
-            color={Colors.DEFAULT_YELLOW}
-            size={30}
-            onPress={() => console.log('AD TO CART')}
-          />
-        </View>
-        {/* boton carrito */}
-        <TouchableOpacity
-          style={styles.cartButton}
-          onPress={() => console.log('Cart added')}
-          activeOpacity={0.8}>
-          <Icon source="cart" color={Colors.DEFAULT_WHITE} size={18} />
-          <Text style={styles.cartButtonText}>Añadir</Text>
-          <Text style={styles.cartButtonText}>$6.000</Text>
-        </TouchableOpacity>
-      </View>
+        </>
+      )}
     </View>
   );
 };

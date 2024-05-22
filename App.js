@@ -5,6 +5,8 @@ import { PaperProvider } from 'react-native-paper';
 import { MainNavigation } from './src/navigation';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
+import { Provider } from 'react-redux';
+import store from './src/store';
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
@@ -31,9 +33,11 @@ export default function App() {
 
   if (fontsLoaded && !fontError) {
     return (
-      <PaperProvider>
-        <MainNavigation />
-      </PaperProvider>
+      <Provider store={store}>
+        <PaperProvider>
+          <MainNavigation />
+        </PaperProvider>
+      </Provider>
     );
   }
 }
