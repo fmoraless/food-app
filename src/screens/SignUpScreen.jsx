@@ -37,9 +37,12 @@ const SignUpScreen = ({ navigation }) => {
 
   const dispatch = useDispatch();
 
-  const [triggerSignUp, result] = useSignUpMutation();
+  const [triggerSignUp, result, isLoading] = useSignUpMutation();
 
   useEffect(() => {
+    if (isLoading) {
+      return <FullScreenLoader />;
+    }
     if (result.isSuccess) {
       console.log('🕵🏻 ~ useEffect ~ result:', result);
       dispatch(
@@ -51,16 +54,10 @@ const SignUpScreen = ({ navigation }) => {
     }
   }, [result]);
 
-  console.log({
-    email: email,
-    password: password,
-    isPasswordShow: isPasswordShow,
-  });
-
   const onSubmit = () => {
     try {
       setEmailError('');
-      setConfirmPasswordError('');
+      setPasswordError('');
       setConfirmPasswordError('');
       const validation = signupSchema.validateSync({
         email,
@@ -121,6 +118,7 @@ const SignUpScreen = ({ navigation }) => {
               placeholderTextColor={Colors.DEFAULT_GREY}
               selectionColor={Colors.DEFAULT_GREY}
               style={styles.inputText}
+              keyboardType="email-address"
               value={email}
               onChangeText={setEmail}
             />
