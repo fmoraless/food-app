@@ -15,6 +15,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import { useSignUpMutation } from '../services/authService';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../features/User/userSlice';
+import { signupSchema } from '../../validations/authSchema';
 
 const { height, width } = Dimensions.get('window');
 // TODO: extraer a un Hook
@@ -28,6 +29,12 @@ const SignUpScreen = ({ navigation }) => {
   const [isPasswordShow, setIsPasswordShow] = useState(false);
   const [isConfirmationPasswordShow, setIsConfirmationPasswordShow] =
     useState(false);
+
+  /* States de errores */
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState('');
+
   const dispatch = useDispatch();
 
   const [triggerSignUp, result] = useSignUpMutation();
@@ -51,7 +58,35 @@ const SignUpScreen = ({ navigation }) => {
   });
 
   const onSubmit = () => {
-    triggerSignUp({ email, password, returnSecureToken: true });
+    try {
+      setEmailError('');
+      setConfirmPasswordError('');
+      setConfirmPasswordError('');
+      const validation = signupSchema.validateSync({
+        email,
+        password,
+        confirmPassword,
+      });
+      triggerSignUp({ email, password, returnSecureToken: true });
+    } catch (error) {
+      console.log('Error en registro', error);
+      console.log('Error path', error.path);
+      console.log('Error message', error.message);
+      switch (error.path) {
+        case 'email':
+          setEmailError(error.message);
+          break;
+        case 'password':
+          setPasswordError(error.message);
+          break;
+        case 'confirmPassword':
+          setConfirmPasswordError(error.message);
+          break;
+
+        default:
+          break;
+      }
+    }
   };
 
   return (
@@ -72,77 +107,88 @@ const SignUpScreen = ({ navigation }) => {
       </View>
       <Text style={styles.title}>Crea una cuenta</Text>
       <Text style={styles.content}>Ingresa tu correo y contraseña</Text>
-      <View style={styles.inputContainer}>
-        <View style={styles.inputSubContainer}>
-          <Feather
-            name="mail"
-            size={22}
-            color={Colors.DEFAULT_GREY}
-            style={{ marginRight: 10 }}
-          />
-          <TextInput
-            placeholder="Correo"
-            placeholderTextColor={Colors.DEFAULT_GREY}
-            selectionColor={Colors.DEFAULT_GREY}
-            style={styles.inputText}
-            value={email}
-            onChangeText={setEmail}
-          />
+      <View>
+        <View style={styles.inputContainer}>
+          <View style={styles.inputSubContainer}>
+            <Feather
+              name="mail"
+              size={22}
+              color={Colors.DEFAULT_GREY}
+              style={{ marginRight: 10 }}
+            />
+            <TextInput
+              placeholder="Correo"
+              placeholderTextColor={Colors.DEFAULT_GREY}
+              selectionColor={Colors.DEFAULT_GREY}
+              style={styles.inputText}
+              value={email}
+              onChangeText={setEmail}
+            />
+          </View>
         </View>
+        <Text style={styles.textError}>{emailError}</Text>
       </View>
       <Separator height={15} />
-      <View style={styles.inputContainer}>
-        <View style={styles.inputSubContainer}>
-          <Feather
-            name="lock"
-            size={22}
-            color={Colors.DEFAULT_GREY}
-            style={{ marginRight: 10 }}
-          />
-          <TextInput
-            secureTextEntry={isPasswordShow ? false : true}
-            placeholder="Contraseña"
-            placeholderTextColor={Colors.DEFAULT_GREY}
-            selectionColor={Colors.DEFAULT_GREY}
-            style={styles.inputText}
-            value={password}
-            onChangeText={setPassword}
-          />
-          <Feather
-            name={confirmPassword ? 'eye' : 'eye-off'}
-            size={22}
-            color={Colors.DEFAULT_GREY}
-            style={{ marginRight: 10 }}
-            onPress={() => setIsPasswordShow(!isPasswordShow)}
-          />
+      <View>
+        <View style={styles.inputContainer}>
+          <View style={styles.inputSubContainer}>
+            <Feather
+              name="lock"
+              size={22}
+              color={Colors.DEFAULT_GREY}
+              style={{ marginRight: 10 }}
+            />
+            <TextInput
+              secureTextEntry={isPasswordShow ? false : true}
+              placeholder="Contraseña"
+              placeholderTextColor={Colors.DEFAULT_GREY}
+              selectionColor={Colors.DEFAULT_GREY}
+              style={styles.inputText}
+              value={password}
+              onChangeText={setPassword}
+            />
+            <Feather
+              name={confirmPassword ? 'eye' : 'eye-off'}
+              size={22}
+              color={Colors.DEFAULT_GREY}
+              style={{ marginRight: 10 }}
+              onPress={() => setIsPasswordShow(!isPasswordShow)}
+            />
+          </View>
         </View>
+        <Text style={styles.textError}>{passwordError}</Text>
       </View>
       <Separator height={15} />
-      <View style={styles.inputContainer}>
-        <View style={styles.inputSubContainer}>
-          <Feather
-            name="lock"
-            size={22}
-            color={Colors.DEFAULT_GREY}
-            style={{ marginRight: 10 }}
-          />
-          <TextInput
-            secureTextEntry={isConfirmationPasswordShow ? false : true}
-            placeholder="Confirmar Contraseña"
-            placeholderTextColor={Colors.DEFAULT_GREY}
-            selectionColor={Colors.DEFAULT_GREY}
-            style={styles.inputText}
-          />
-          <Feather
-            name={isConfirmationPasswordShow ? 'eye' : 'eye-off'}
-            size={22}
-            color={Colors.DEFAULT_GREY}
-            style={{ marginRight: 10 }}
-            onPress={() =>
-              setIsConfirmationPasswordShow(!isConfirmationPasswordShow)
-            }
-          />
+      <View>
+        <View style={styles.inputContainer}>
+          <View style={styles.inputSubContainer}>
+            <Feather
+              name="lock"
+              size={22}
+              color={Colors.DEFAULT_GREY}
+              style={{ marginRight: 10 }}
+            />
+            <TextInput
+              secureTextEntry={isConfirmationPasswordShow ? false : true}
+              placeholder="Confirmar Contraseña"
+              placeholderTextColor={Colors.DEFAULT_GREY}
+              selectionColor={Colors.DEFAULT_GREY}
+              style={styles.inputText}
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+            />
+            <Feather
+              name={isConfirmationPasswordShow ? 'eye' : 'eye-off'}
+              size={22}
+              color={Colors.DEFAULT_GREY}
+              style={{ marginRight: 10 }}
+              onPress={() =>
+                setIsConfirmationPasswordShow(!isConfirmationPasswordShow)
+              }
+            />
+          </View>
         </View>
+        <Text style={styles.textError}>{confirmPasswordError}</Text>
       </View>
       <TouchableOpacity onPress={onSubmit} style={styles.signInButton}>
         <Text style={styles.signInButtonText}>Registrar</Text>
@@ -242,6 +288,13 @@ const styles = StyleSheet.create({
   bottomTextLogin: {
     fontSize: 15,
     fontFamily: 'Poppins-Bold',
+  },
+  textError: {
+    marginStart: 20,
+    marginTop: 5,
+    fontSize: 15,
+    fontFamily: 'Poppins-Thin',
+    color: Colors.DEFAULT_RED,
   },
 });
 
