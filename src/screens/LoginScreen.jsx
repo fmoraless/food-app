@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Dimensions,
   StyleSheet,
@@ -12,6 +12,11 @@ import { StatusBar } from 'expo-status-bar';
 import Separator from '../components/Separator';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
+import { useDispatch } from 'react-redux';
+import { useSignInMutation } from '../services/authService';
+import { setUser } from '../features/User/userSlice';
+import { signinSchema } from '../../validations/authSchema';
+import { FullScreenLoader } from '../components/FullScreenLoader';
 
 const { height, width } = Dimensions.get('window');
 // TODO: extraer a un Hook
@@ -20,8 +25,61 @@ const setWidth = (w) => (width / 100) * w;
 
 const LoginScreen = ({ navigation }) => {
   const [isPasswordShow, setIsPasswordShow] = useState(false);
-  const [isConfirmationPasswordShow, setIsConfirmationPasswordShow] =
-    useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  /* States de errores */
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
+  const dispatch = useDispatch();
+
+  const [triggerSignIn, result, isLoading] = useSignInMutation();
+
+  useEffect(() => {
+    if (isLoading) {
+      return <FullScreenLoader />;
+    }
+
+    if (result.isSuccess) {
+      console.log('🕵🏻 ~ useEffect ~ Loginresult:', result);
+      dispatch(
+        setUser({
+          email: result.data.email,
+          idToken: result.data.idToken,
+        }),
+      );
+    }
+  }, [result]);
+
+  const onSubmit = () => {
+    try {
+      setEmailError('');
+      setPasswordError('');
+
+      const validation = signinSchema.validateSync({
+        email,
+        password,
+      });
+
+      triggerSignIn({ email, password });
+    } catch (error) {
+      console.log('Error en registro', error);
+      console.log('Error path', error.path);
+      console.log('Error message', error.message);
+      switch (error.path) {
+        case 'email':
+          setEmailError(error.message);
+          break;
+        case 'password':
+          setPasswordError(error.message);
+          break;
+        default:
+          break;
+      }
+    }
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar
@@ -39,51 +97,59 @@ const LoginScreen = ({ navigation }) => {
         <Text style={styles.headerTitle}>Ingresar</Text>
       </View>
       <Text style={styles.title}>Iniciar Sesión</Text>
-      <View style={styles.inputContainer}>
-        <View style={styles.inputSubContainer}>
-          <Feather
-            name="mail"
-            size={22}
-            color={Colors.DEFAULT_GREY}
-            style={{ marginRight: 10 }}
-          />
-          <TextInput
-            placeholder="Correo"
-            placeholderTextColor={Colors.DEFAULT_GREY}
-            selectionColor={Colors.DEFAULT_GREY}
-            style={styles.inputText}
-            keyboardType="email-address"
-          />
+      <View>
+        <View style={styles.inputContainer}>
+          <View style={styles.inputSubContainer}>
+            <Feather
+              name="mail"
+              size={22}
+              color={Colors.DEFAULT_GREY}
+              style={{ marginRight: 10 }}
+            />
+            <TextInput
+              placeholder="Correo"
+              placeholderTextColor={Colors.DEFAULT_GREY}
+              selectionColor={Colors.DEFAULT_GREY}
+              style={styles.inputText}
+              keyboardType="email-address"
+              value={email}
+              onChangeText={setEmail}
+            />
+          </View>
         </View>
+        <Text style={styles.textError}>{emailError}</Text>
       </View>
       <Separator height={15} />
-      <View style={styles.inputContainer}>
-        <View style={styles.inputSubContainer}>
-          <Feather
-            name="lock"
-            size={22}
-            color={Colors.DEFAULT_GREY}
-            style={{ marginRight: 10 }}
-          />
-          <TextInput
-            secureTextEntry={isPasswordShow ? false : true}
-            placeholder="Contraseña"
-            placeholderTextColor={Colors.DEFAULT_GREY}
-            selectionColor={Colors.DEFAULT_GREY}
-            style={styles.inputText}
-            name="password"
-          />
-          <Feather
-            name={isPasswordShow ? 'eye' : 'eye-off'}
-            size={22}
-            color={Colors.DEFAULT_GREY}
-            style={{ marginRight: 10 }}
-            onPress={() => setIsPasswordShow(!isPasswordShow)}
-          />
+      <View>
+        <View style={styles.inputContainer}>
+          <View style={styles.inputSubContainer}>
+            <Feather
+              name="lock"
+              size={22}
+              color={Colors.DEFAULT_GREY}
+              style={{ marginRight: 10 }}
+            />
+            <TextInput
+              secureTextEntry={isPasswordShow ? false : true}
+              placeholder="Contraseña"
+              placeholderTextColor={Colors.DEFAULT_GREY}
+              selectionColor={Colors.DEFAULT_GREY}
+              style={styles.inputText}
+              value={password}
+              onChangeText={setPassword}
+            />
+            <Feather
+              name={isPasswordShow ? 'eye' : 'eye-off'}
+              size={22}
+              color={Colors.DEFAULT_GREY}
+              style={{ marginRight: 10 }}
+              onPress={() => setIsPasswordShow(!isPasswordShow)}
+            />
+          </View>
         </View>
+        <Text style={styles.textError}>{passwordError}</Text>
       </View>
-
-      <TouchableOpacity style={styles.signInButton}>
+      <TouchableOpacity onPress={onSubmit} style={styles.signInButton}>
         <Text style={styles.signInButtonText}>Ingresar</Text>
       </TouchableOpacity>
       <View style={styles.bottomTextContainer}>
@@ -181,6 +247,13 @@ const styles = StyleSheet.create({
   bottomTextLogin: {
     fontSize: 15,
     fontFamily: 'Poppins-Bold',
+  },
+  textError: {
+    marginStart: 20,
+    marginTop: 5,
+    fontSize: 15,
+    fontFamily: 'Poppins-Thin',
+    color: Colors.DEFAULT_RED,
   },
 });
 
