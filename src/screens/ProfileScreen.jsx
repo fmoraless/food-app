@@ -25,6 +25,9 @@ const setHeight = (h) => (height / 100) * h;
 const setWidth = (w) => (width / 100) * w;
 
 export const ProfileScreen = ({ navigation }) => {
+  const handleImageSelection = () => {
+    navigation.navigate('ImageSelectorScreen');
+  };
   const defaultImageRoute = '../../assets/images/defaultProfile.png';
 
   return (
@@ -121,7 +124,10 @@ export const ProfileScreen = ({ navigation }) => {
       </View>
       <View style={styles.mainContainer}>
         <Text style={styles.sectionHeaderText}>Configuraciones</Text>
-        <TouchableOpacity style={styles.sectionContainer} activeOpacity={0.8}>
+        <TouchableOpacity
+          onPress={handleImageSelection}
+          style={styles.sectionContainer}
+          activeOpacity={0.8}>
           <View style={styles.sectionTextContainer}>
             <MaterialCommunityIcons
               name="image-edit-outline"
