@@ -18,8 +18,9 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 import Images from '../constants/Images';
 import { ToggleButton } from 'react-native-paper';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useGetProfileImageQuery } from '../services/shopService';
+import { clearUser } from '../features/User/userSlice';
 
 const { height, width } = Dimensions.get('window');
 // TODO: extraer a un Hook
@@ -30,10 +31,15 @@ export const ProfileScreen = ({ navigation }) => {
   const { imageCamera, user, localId } = useSelector(
     (state) => state.auth.value,
   );
+  const dispatch = useDispatch();
   const { data: imageFromBase } = useGetProfileImageQuery(localId);
 
   const handleImageSelection = () => {
     navigation.navigate('ImageSelectorScreen');
+  };
+
+  const signOut = () => {
+    dispatch(clearUser());
   };
 
   return (
@@ -154,7 +160,10 @@ export const ProfileScreen = ({ navigation }) => {
           </View>
           <Feather name="chevron-right" color={Colors.DEFAULT_GREY} size={20} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.sectionContainer} activeOpacity={0.8}>
+        <TouchableOpacity
+          style={styles.sectionContainer}
+          activeOpacity={0.8}
+          onPress={signOut}>
           <View style={styles.sectionTextContainer}>
             <MaterialCommunityIcons
               name="logout"
