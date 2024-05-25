@@ -18,6 +18,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 import Images from '../constants/Images';
 import { ToggleButton } from 'react-native-paper';
+import { useSelector } from 'react-redux';
+import { useGetProfileImageQuery } from '../services/shopService';
 
 const { height, width } = Dimensions.get('window');
 // TODO: extraer a un Hook
@@ -25,10 +27,14 @@ const setHeight = (h) => (height / 100) * h;
 const setWidth = (w) => (width / 100) * w;
 
 export const ProfileScreen = ({ navigation }) => {
+  const { imageCamera, user, localId } = useSelector(
+    (state) => state.auth.value,
+  );
+  const { data: imageFromBase } = useGetProfileImageQuery(localId);
+
   const handleImageSelection = () => {
     navigation.navigate('ImageSelectorScreen');
   };
-  const defaultImageRoute = '../../assets/images/defaultProfile.png';
 
   return (
     <View style={styles.container}>
@@ -61,12 +67,21 @@ export const ProfileScreen = ({ navigation }) => {
       <View style={styles.profileHeaderContainer}>
         {/* contenedor de imagen */}
         <View style={styles.profileImageContainer}>
-          <Image style={styles.profileImage} source={Images.DEFAULT_AVATAR} />
+          {imageFromBase || imageCamera ? (
+            <Image
+              style={styles.profileImage}
+              source={{ uri: imageFromBase?.image || imageCamera }}
+            />
+          ) : (
+            <Image style={styles.profileImage} source={Images.DEFAULT_AVATAR} />
+          )}
         </View>
         {/* Textos nombre e email */}
         <View style={styles.profileTextContainer}>
           <Text style={styles.nameText}>John Doe</Text>
-          <Text style={styles.emailText}>jdoe@example.com</Text>
+          <Text style={styles.emailText}>
+            {user ? user : 'Completa tu email'}
+          </Text>
         </View>
       </View>
       <View style={styles.menuContainer}>
