@@ -49,6 +49,7 @@ const SignUpScreen = ({ navigation }) => {
         setUser({
           email: result.data.email,
           idToken: result.data.idToken,
+          localId: result.data.localId,
         }),
       );
     }

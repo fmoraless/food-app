@@ -42,11 +42,11 @@ const LoginScreen = ({ navigation }) => {
     }
 
     if (result.isSuccess) {
-      console.log('🕵🏻 ~ useEffect ~ Loginresult:', result);
       dispatch(
         setUser({
           email: result.data.email,
           idToken: result.data.idToken,
+          localId: result.data.localId,
         }),
       );
     }
