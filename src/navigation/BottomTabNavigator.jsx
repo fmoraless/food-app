@@ -6,13 +6,12 @@ import { HomeScreen } from '../screens/HomeScreen';
 import { HomeStackNavigator } from './HomeStackNavigator';
 import { CartScreen } from '../screens/CartScreen';
 import Colors from '../constants/Colors';
-//import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { FontAwesome5, FontAwesome6 } from '@expo/vector-icons';
+import { FontAwesome5, FontAwesome6, Ionicons } from '@expo/vector-icons';
 import { OrdersScreen } from '../screens/OrdersScreen';
 import { CartStack } from './CartStackNavigator';
 import { OrderStack } from './OrderStackNavigator';
 import { useSelector } from 'react-redux';
-import { createSelector } from '@reduxjs/toolkit';
+import { MyProfileStack } from './MyProfileStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -23,22 +22,6 @@ export const BottomTabNavigator = () => {
   );
 
   console.log({ cantidadTotalItemsCarrito: totalItemsQty });
-
-  /* const selectCartItemsCount = createSelector(
-    (state) => state.cart.items,
-    (items) => items.reduce((total, item) => total + item.quantity, 0),
-  ); */
-
-  //console.log('ITEMS-total', items);
-
-  /* if (items.length) {
-    const itemsCount = items.reduce((total, item) => total + item.quantity, 0);
-    console.log(itemsCount);
-    setItemsCount(itemsCount);
-  } */
-
-  /* const cartItemCount = useSelector(selectCartItemsCount);
-  console.log(cartItemCount); */
 
   return (
     <Tab.Navigator
@@ -99,6 +82,24 @@ export const BottomTabNavigator = () => {
                 <FontAwesome5
                   name="receipt"
                   size={24}
+                  color={focused ? Colors.DEFAULT_RED : Colors.DEFAULT_GREY}
+                />
+              </View>
+            );
+          },
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="MyProfile"
+        component={MyProfileStack}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View>
+                <Ionicons
+                  name="person-circle"
+                  size={34}
                   color={focused ? Colors.DEFAULT_RED : Colors.DEFAULT_GREY}
                 />
               </View>
