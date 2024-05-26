@@ -18,7 +18,6 @@ import Colors from '../constants/Colors';
 import { Mock } from '../constants';
 import CategoryMenuItem from '../components/categories/CategoryMenuItem';
 import { ProductCard } from '../components/products/ProductCard';
-//import responseProducts from '../mocked/products.json';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setIdSelected,
@@ -34,13 +33,9 @@ import { FullScreenLoader } from '../components/FullScreenLoader';
 export const HomeScreen = () => {
   const dispatch = useDispatch();
   const { data: categories, error, isLoading } = useGetCategoriesQuery();
-
-  //console.log({ 'LA DATA': categories });
   const [searchQuery, setSearchQuery] = useState('');
-  //const [activeCategory, setActiveCategory] = useState('');
-  //const products = responseProducts.products;
+
   const [filteredProducts, setFilteredProducts] = useState([]);
-  //const [productos, setProductos] = useState(products);
 
   const activeCategory = useSelector(
     (state) => state.shop.value.categorySelected,
@@ -50,23 +45,11 @@ export const HomeScreen = () => {
     (state) => state.shop.value.productsFiltered,
   );
 
-  //console.log(filteredProducts);
   const {
     data: productsFetched,
     error: errorOnGetProducts,
     isLoading: loadingProducts,
   } = useGetProductsByCategoryQuery(activeCategory);
-
-  /*   const {
-    data: allProductsFetched,
-    error: errorOnGetProducts,
-    isLoading: productsIsLoading,
-  } = useGetProductsQuery(); */
-  //console.log({ allProducts: allProductsFetched });
-
-  /* const setSearchQuery = () => {
-    dispatch(setIdSelected(searchQuery));
-  }; */
 
   // TODO: aplicar Debounce
 
@@ -123,15 +106,6 @@ export const HomeScreen = () => {
           <FullScreenLoader />
         ) : (
           <View style={styles.categoriesContainer}>
-            {/* {categories.map(({ name, logo }) => (
-            <CategoryMenuItem
-              key={name}
-              name={name}
-              logo={logo}
-              activeCategory={activeCategory}
-              //setActiveCategory={setActiveCategory}
-            />
-          ))} */}
             <FlatList
               horizontal={true}
               data={categories}

@@ -44,9 +44,7 @@ export const ProfileScreen = ({ navigation }) => {
       const response = await truncateSession();
 
       dispatch(clearUser());
-    } catch (error) {
-      console.log({ errorLogout: error });
-    }
+    } catch (error) {}
   };
 
   return (

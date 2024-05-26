@@ -59,9 +59,7 @@ const SignUpScreen = ({ navigation }) => {
             }),
           );
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch((err) => {});
     }
   }, [result]);
 
@@ -77,9 +75,6 @@ const SignUpScreen = ({ navigation }) => {
       });
       triggerSignUp({ email, password, returnSecureToken: true });
     } catch (error) {
-      console.log('Error en registro', error);
-      console.log('Error path', error.path);
-      console.log('Error message', error.message);
       switch (error.path) {
         case 'email':
           setEmailError(error.message);
@@ -106,11 +101,7 @@ const SignUpScreen = ({ navigation }) => {
       />
       <Separator height={StatusBar.currentHeight} />
       <View style={styles.headerContainer}>
-        <Ionicons
-          name="chevron-back-outline"
-          size={30}
-          onPress={() => console.log('boton-back-outline')}
-        />
+        <Ionicons name="chevron-back-outline" size={30} onPress={() => {}} />
         <Text style={styles.headerTitle}>Registro</Text>
       </View>
       <Text style={styles.title}>Crea una cuenta</Text>

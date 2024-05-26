@@ -61,9 +61,6 @@ export const cartSlice = createSlice({
       }
     },
     removeCartItem: (state, { payload }) => {
-      // logic for removing
-      console.log({ itemToRemove: payload.id });
-      // remove item from cart
       const nextCartItems = state.value.items.filter(
         (cartItem) => cartItem.id !== payload.id,
       );

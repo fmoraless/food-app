@@ -49,7 +49,6 @@ export const ProductScreen = ({ route, navigation }) => {
   const [total, setTotal] = useState(0);
   const [disabled, setDisabled] = useState(false);
 
-  //console.log({ priceToAdd: priceToAdd });
   // TODO: Mover a un helper
   const formattedPrice = (price) => {
     const formatter = new Intl.NumberFormat('es-CL');

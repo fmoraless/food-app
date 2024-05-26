@@ -49,7 +49,6 @@ const LoginScreen = ({ navigation }) => {
         token: result.data.idToken,
       })
         .then((response) => {
-          console.log({ RESP: response });
           dispatch(
             setUser({
               email: result.data.email,
@@ -58,9 +57,7 @@ const LoginScreen = ({ navigation }) => {
             }),
           );
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch((err) => {});
     }
   }, [result]);
 
@@ -76,9 +73,6 @@ const LoginScreen = ({ navigation }) => {
 
       triggerSignIn({ email, password });
     } catch (error) {
-      console.log('Error en registro', error);
-      console.log('Error path', error.path);
-      console.log('Error message', error.message);
       switch (error.path) {
         case 'email':
           setEmailError(error.message);
@@ -101,11 +95,7 @@ const LoginScreen = ({ navigation }) => {
       />
       <Separator height={StatusBar.currentHeight} />
       <View style={styles.headerContainer}>
-        <Ionicons
-          name="chevron-back-outline"
-          size={30}
-          onPress={() => console.log('boton-back-outline')}
-        />
+        <Ionicons name="chevron-back-outline" size={30} onPress={() => {}} />
         <Text style={styles.headerTitle}>Ingresar</Text>
       </View>
       <Text style={styles.title}>Iniciar Sesión</Text>

@@ -42,9 +42,7 @@ export const CartItem = ({ item }) => {
       </Pressable>
 
       <View style={styles.detailsContainer}>
-        <TouchableOpacity
-          onPress={() => console.log('item')}
-          activeOpacity={0.8}>
+        <TouchableOpacity onPress={() => {}} activeOpacity={0.8}>
           <Text numberOfLines={1} style={styles.titleText}>
             {item.name}
           </Text>
@@ -57,21 +55,9 @@ export const CartItem = ({ item }) => {
           <View style={styles.itemAddContainer}>
             {itemCount > 0 ? (
               <>
-                {/* <AntDesign
-                  name="minus"
-                  color={Colors.DEFAULT_YELLOW}
-                  size={18}
-                  onPress={() => console.log('item')}
-                /> */}
                 <Text style={styles.itemCountText}>{item.quantity}</Text>
               </>
             ) : null}
-            {/* <AntDesign
-              name="plus"
-              color={Colors.DEFAULT_YELLOW}
-              size={18}
-              onPress={() => addToCart(id)}
-            /> */}
           </View>
           <Pressable onPress={handleRemoveItemFromCart}>
             <Ionicons name="trash-sharp" size={23} color={Colors.DEFAULT_RED} />

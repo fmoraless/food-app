@@ -54,9 +54,7 @@ export const ImageSelectorScreen = ({ navigation }) => {
           setImage(`data:image/jpeg;base64,${result.assets[0].base64}`);
         }
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const confirmImage = async () => {
@@ -64,9 +62,7 @@ export const ImageSelectorScreen = ({ navigation }) => {
       dispatch(setCameraImage(image));
       triggerPostImage({ image, localId });
       navigation.goBack();
-    } catch (error) {
-      console.log({ error: error });
-    }
+    } catch (error) {}
   };
 
   return (

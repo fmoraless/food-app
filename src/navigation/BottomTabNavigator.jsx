@@ -16,12 +16,9 @@ import { MyProfileStack } from './MyProfileStack';
 const Tab = createBottomTabNavigator();
 
 export const BottomTabNavigator = () => {
-  //const [itemsCount, setItemsCount] = useState(0);
   const totalItemsQty = useSelector(
     (state) => state.cart.value.totalItemsQuantity,
   );
-
-  console.log({ cantidadTotalItemsCarrito: totalItemsQty });
 
   return (
     <Tab.Navigator

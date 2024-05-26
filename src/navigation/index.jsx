@@ -35,13 +35,9 @@ export const MainNavigation = () => {
             }),
           );
         }
-      } catch (error) {
-        console.log({ sessionError: error });
-      }
+      } catch (error) {}
     })();
   }, []);
-
-  console.log({ MainNavigationUSER: user });
 
   return (
     <NavigationContainer>

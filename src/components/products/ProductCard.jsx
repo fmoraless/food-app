@@ -14,8 +14,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setIdSelected } from '../../features/Shop/shopSlice';
 
 export const ProductCard = ({ item }) => {
-  // console.log('item en ProductCard', item);
-
   const { height, width } = useWindowDimensions();
   const DYNAMIC_WIDTH = width / 2 - 30;
   const navigation = useNavigation();
@@ -25,7 +23,7 @@ export const ProductCard = ({ item }) => {
     dispatch(setIdSelected(item));
     navigation.navigate('Product', { item });
   };
-  // console.log(height, DYNAMIC_WIDTH);
+
   return (
     <View style={styles.cardContainer}>
       <Pressable onPress={handleNavigate}>

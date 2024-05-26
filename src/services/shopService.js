@@ -16,7 +16,6 @@ export const shopApi = createApi({
       query: (category) =>
         `productos.json?orderBy="category"&equalsTo="${category}"`,
       transformResponse: (response) => {
-        //console.log({ resFromService: response });
         const responseTransformed = Object.values(response);
         return responseTransformed;
       },

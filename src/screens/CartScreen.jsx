@@ -32,21 +32,14 @@ const { height, width } = Dimensions.get('window');
 const setHeight = (h) => (height / 100) * h;
 const setWidth = (w) => (width / 100) * w;
 
-export const CartScreen = () => {
-  const navigation = useNavigation();
+export const CartScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const { localId } = useSelector((state) => state.auth.value);
-  console.log({ localIdOnCart: localId });
+
   const { items: cartData, total } = useSelector((state) => state.cart.value);
 
   const [triggerPostOrder, result, isLoading] = usePostOrderMutation();
-
-  console.log({ Result: result });
-
-  const onPress = () => {
-    console.log('Presend');
-  };
 
   const onConfirmOrder = async () => {
     const orderData = {
@@ -58,9 +51,7 @@ export const CartScreen = () => {
 
     try {
       triggerPostOrder(orderData);
-    } catch (error) {
-      console.log({ errorCreatingOrder: error });
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
