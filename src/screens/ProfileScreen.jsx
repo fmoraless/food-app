@@ -21,6 +21,7 @@ import { ToggleButton } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { useGetProfileImageQuery } from '../services/shopService';
 import { clearUser } from '../features/User/userSlice';
+import { truncateSession } from '../persistence';
 
 const { height, width } = Dimensions.get('window');
 // TODO: extraer a un Hook
@@ -34,12 +35,18 @@ export const ProfileScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const { data: imageFromBase } = useGetProfileImageQuery(localId);
 
-  const handleImageSelection = () => {
+  const handleImageSelection = async () => {
     navigation.navigate('ImageSelectorScreen');
   };
 
-  const signOut = () => {
-    dispatch(clearUser());
+  const signOut = async () => {
+    try {
+      const response = await truncateSession();
+      console.log(response);
+      dispatch(clearUser());
+    } catch (error) {
+      console.log({ errorLogout: error });
+    }
   };
 
   return (
