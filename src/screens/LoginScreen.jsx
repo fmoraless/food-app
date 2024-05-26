@@ -26,7 +26,7 @@ const setWidth = (w) => (width / 100) * w;
 
 const LoginScreen = ({ navigation }) => {
   const [isPasswordShow, setIsPasswordShow] = useState(false);
-  const [email, setEmail] = useState('fabian@correo.com');
+  const [email, setEmail] = useState('francisco@example.com');
   const [password, setPassword] = useState('123456');
 
   /* States de errores */

@@ -42,7 +42,7 @@ export const ProfileScreen = ({ navigation }) => {
   const signOut = async () => {
     try {
       const response = await truncateSession();
-      console.log(response);
+
       dispatch(clearUser());
     } catch (error) {
       console.log({ errorLogout: error });

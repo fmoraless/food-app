@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -24,6 +24,7 @@ import Images from '../constants/Images';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePostOrderMutation } from '../services/shopService';
 import { clearCart } from '../features/Cart/cartSlice';
+import { FullScreenLoader } from '../components/FullScreenLoader';
 
 const { height, width } = Dimensions.get('window');
 
@@ -34,10 +35,12 @@ const setWidth = (w) => (width / 100) * w;
 export const CartScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  //  console.log('CartSData', cartData);
+
+  const { localId } = useSelector((state) => state.auth.value);
+  console.log({ localIdOnCart: localId });
   const { items: cartData, total } = useSelector((state) => state.cart.value);
-  //console.log({ itemsCarrito: cartData, totalCarrito: total });
-  const [triggerPostOrder, result] = usePostOrderMutation();
+
+  const [triggerPostOrder, result, isLoading] = usePostOrderMutation();
 
   console.log({ Result: result });
 
@@ -48,22 +51,27 @@ export const CartScreen = () => {
   const onConfirmOrder = async () => {
     const orderData = {
       items: cartData,
-      user: 'Francisco',
+      user: localId,
       total,
       createdAt: new Date().toLocaleString(),
     };
 
-    const response = await triggerPostOrder(orderData);
-    // TODO: Revisar como manejar la respuesta
-    /* console.log({ RESPONSE: result.isSuccess });
-    if (result.isSuccess) {
+    try {
+      triggerPostOrder(orderData);
+    } catch (error) {
+      console.log({ errorCreatingOrder: error });
+    }
+  };
+
+  useEffect(() => {
+    if (isLoading) {
+      return <FullScreenLoader />;
+    }
+    if (result?.data && result.isSuccess) {
       Alert.alert('Orden creada existosamente');
       dispatch(clearCart());
-      navigation.popToTop();
-    } else {
-      Alert.alert('Hubo un error');
-    } */
-  };
+    }
+  }, [result]);
 
   // TODO: Mover a un helper
   const formattedPrice = (price) => {
