@@ -4,7 +4,7 @@ import { baseUrl } from '../database/realtimeDB';
 export const shopApi = createApi({
   reducerPath: 'shopApi',
   baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
-  tagTypes: ['profileImageGet'],
+  tagTypes: ['profileImageGet', 'Orders'],
   endpoints: (builder) => ({
     getCategories: builder.query({
       query: () => `categories.json`,
@@ -35,9 +35,11 @@ export const shopApi = createApi({
         method: 'POST',
         body: order,
       }),
+      invalidatesTags: ['Orders'],
     }),
     getOrders: builder.query({
       query: () => `orders.json`,
+      providesTags: ['Orders'],
     }),
     getProfileImage: builder.query({
       query: (localId) => `profileImages/${localId}.json`,

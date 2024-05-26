@@ -31,7 +31,6 @@ export const ImageSelectorScreen = ({ navigation }) => {
   const { localId, imageCamera } = useSelector((state) => state.auth.value);
   const { data: imageFromBase } = useGetProfileImageQuery(localId);
 
-  console.log({ ImageFromBASE: imageFromBase });
   const dispatch = useDispatch();
 
   const verifyCameraPermissions = async () => {

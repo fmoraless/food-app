@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -20,6 +20,7 @@ import { useNavigation } from '@react-navigation/native';
 import { FullScreenLoader } from '../components/FullScreenLoader';
 import Images from '../constants/Images';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { useSelector } from 'react-redux';
 
 const { height, width } = Dimensions.get('window');
 // TODO: extraer a un Hook
@@ -28,23 +29,34 @@ const setWidth = (w) => (width / 100) * w;
 
 export const OrdersScreen = () => {
   const navigation = useNavigation();
+  const [ordersByUser, setOrdersByUser] = useState({});
+  const { localId } = useSelector((state) => state.auth.value);
   const { data: orders, error, isLoading } = useGetOrdersQuery();
 
-  const ordersTest = [];
-  /* if (isLoading) return <Text>Loading...</Text>; */
+  const filterOrdersByUser = (orders, userId) => {
+    let filteredOrders = {};
 
-  /* const orderArray = Object.keys(orders).map((key) => ({
-    id: key,
-    ...orders[key],
-  }));
- */
+    for (let orderId in orders) {
+      if (orders[orderId].user === userId) {
+        filteredOrders[orderId] = orders[orderId];
+      }
+    }
+
+    return filteredOrders;
+  };
+
+  useEffect(() => {
+    const userOrders = filterOrdersByUser(orders, localId);
+
+    setOrdersByUser(userOrders);
+  }, [orders, localId]);
 
   if (isLoading) return <Text>Loading...</Text>;
 
-  const sections = Object.keys(orders).map((key) => ({
-    title: `${orders[key].createdAt}`,
-    total: orders[key].total,
-    data: orders[key].items,
+  const sections = Object.keys(ordersByUser).map((key) => ({
+    title: `${ordersByUser[key].createdAt}`,
+    total: ordersByUser[key].total,
+    data: ordersByUser[key].items,
   }));
 
   const renderSectionHeader = ({ section: { title } }) => (

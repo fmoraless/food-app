@@ -23,10 +23,10 @@ export const MainNavigation = () => {
     (async () => {
       try {
         const response = await getSession();
-        console.log({ getSession: response });
+
         if (response.rows._array.length) {
           const user = response.rows._array[0];
-          console.log({ userFromDB: user });
+
           dispatch(
             setUser({
               email: user.email,
