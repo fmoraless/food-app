@@ -9,4 +9,5 @@ export default {
   DELIVERY_CHARGE: require('../../assets/images/general/delivery_charge.png'),
   EMPTY_CART: require('../../assets/images/general/empty-cart.png'),
   EMPTY_ORDERS: require('../../assets/images/general/no-orders.png'),
+  DEFAULT_AVATAR: require('../../assets/images/defaultProfile.png'),
 };
