@@ -16,6 +16,7 @@ import { useSignUpMutation } from '../services/authService';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../features/User/userSlice';
 import { signupSchema } from '../../validations/authSchema';
+import { insertSession } from '../persistence';
 
 const { height, width } = Dimensions.get('window');
 // TODO: extraer a un Hook
@@ -43,15 +44,24 @@ const SignUpScreen = ({ navigation }) => {
     if (isLoading) {
       return <FullScreenLoader />;
     }
-    if (result.isSuccess) {
-      console.log('🕵🏻 ~ useEffect ~ result:', result);
-      dispatch(
-        setUser({
-          email: result.data.email,
-          idToken: result.data.idToken,
-          localId: result.data.localId,
-        }),
-      );
+    if (result?.data && result.isSuccess) {
+      insertSession({
+        email: result.data.email,
+        localId: result.data.localId,
+        token: result.data.idToken,
+      })
+        .then((response) => {
+          dispatch(
+            setUser({
+              email: result.data.email,
+              idToken: result.data.idToken,
+              localId: result.data.localId,
+            }),
+          );
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }, [result]);
 

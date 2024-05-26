@@ -17,6 +17,7 @@ import { useSignInMutation } from '../services/authService';
 import { setUser } from '../features/User/userSlice';
 import { signinSchema } from '../../validations/authSchema';
 import { FullScreenLoader } from '../components/FullScreenLoader';
+import { insertSession } from '../persistence';
 
 const { height, width } = Dimensions.get('window');
 // TODO: extraer a un Hook
@@ -25,8 +26,8 @@ const setWidth = (w) => (width / 100) * w;
 
 const LoginScreen = ({ navigation }) => {
   const [isPasswordShow, setIsPasswordShow] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('fabian@correo.com');
+  const [password, setPassword] = useState('123456');
 
   /* States de errores */
   const [emailError, setEmailError] = useState('');
@@ -41,14 +42,25 @@ const LoginScreen = ({ navigation }) => {
       return <FullScreenLoader />;
     }
 
-    if (result.isSuccess) {
-      dispatch(
-        setUser({
-          email: result.data.email,
-          idToken: result.data.idToken,
-          localId: result.data.localId,
-        }),
-      );
+    if (result?.data && result.isSuccess) {
+      insertSession({
+        email: result.data.email,
+        localId: result.data.localId,
+        token: result.data.idToken,
+      })
+        .then((response) => {
+          console.log({ RESP: response });
+          dispatch(
+            setUser({
+              email: result.data.email,
+              idToken: result.data.idToken,
+              localId: result.data.localId,
+            }),
+          );
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }, [result]);
 

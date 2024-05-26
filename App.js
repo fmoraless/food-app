@@ -7,6 +7,18 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { Provider } from 'react-redux';
 import store from './src/store';
+import { initSQLiteDB } from './src/persistence';
+
+/* Database initialization */
+(async () => {
+  try {
+    const response = await initSQLiteDB();
+    console.log({ responseCreatingDB: response });
+    console.log('DB initialized successfully');
+  } catch (error) {
+    console.log({ errorCreatingSQLiteDB: error });
+  }
+})();
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
