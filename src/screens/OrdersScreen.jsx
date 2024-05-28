@@ -7,7 +7,6 @@ import {
   SectionListComponent,
   SectionList,
   Pressable,
-  Dimensions,
   Image,
   TouchableOpacity,
 } from 'react-native';
@@ -21,14 +20,12 @@ import { FullScreenLoader } from '../components/FullScreenLoader';
 import Images from '../constants/Images';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useSelector } from 'react-redux';
-
-const { height, width } = Dimensions.get('window');
-// TODO: extraer a un Hook
-const setHeight = (h) => (height / 100) * h;
-const setWidth = (w) => (width / 100) * w;
+import useDimensions from '../hooks/useDimensions';
+import { formattedPrice } from '../utils/helpers';
 
 export const OrdersScreen = () => {
   const navigation = useNavigation();
+  const { setHeight, setWidth, width } = useDimensions();
   const [ordersByUser, setOrdersByUser] = useState({});
   const { localId } = useSelector((state) => state.auth.value);
   const { data: orders, error, isLoading } = useGetOrdersQuery();
@@ -67,17 +64,17 @@ export const OrdersScreen = () => {
 
   const renderSectionFooter = ({ section: { total } }) => (
     <View style={styles.footerStyle}>
-      <Text style={styles.totalamountText}>{total}</Text>
+      <Text style={styles.totalamountText}>${formattedPrice(total)}</Text>
     </View>
   );
 
   const Item = ({ name, quantity, price }) => (
     <View style={styles.itemContainer}>
       <View style={styles.itemLine}>
-        <Text style={styles.nameText}>{name}</Text>
+        <Text style={[styles.nameText, { width: setWidth(60) }]}>{name}</Text>
         <Text style={styles.priceText}>x{quantity}</Text>
         <View style={{ flex: 1 }} />
-        <Text style={styles.amountText}>${price}</Text>
+        <Text style={styles.amountText}>${formattedPrice(price)}</Text>
       </View>
     </View>
   );
@@ -89,7 +86,7 @@ export const OrdersScreen = () => {
   const ListEmptyComponent = () => (
     <View style={styles.emptyCartContainer}>
       <Image
-        style={styles.emptyCartImage}
+        style={{ height: setWidth(70), width: setWidth(70) }}
         source={Images.EMPTY_ORDERS}
         resizeMode="contain"
       />
@@ -98,7 +95,7 @@ export const OrdersScreen = () => {
         Adelante, pide alguno de nuestros platos
       </Text>
       <TouchableOpacity
-        style={styles.addButtonEmpty}
+        style={[styles.addButtonEmpty, { paddingHorizontal: setWidth(4) }]}
         onPress={() => navigation.navigate('Home')}>
         <AntDesign name="plus" color={Colors.DEFAULT_WHITE} size={20} />
         <Text style={styles.addButtonEmptyText}>Agregar</Text>
@@ -121,7 +118,9 @@ export const OrdersScreen = () => {
             <Icon source="arrow-left" size={25} color="white" />
           </Pressable>
         </View>
-        <Text style={styles.headerTitle}>Mis Pedidos</Text>
+        <Text style={[styles.headerTitle, { width: setWidth(80) }]}>
+          Mis Pedidos
+        </Text>
       </View>
       {isLoading ? (
         <FullScreenLoader />
@@ -206,7 +205,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'Poppins-Medium',
     lineHeight: 20 * 1.4,
-    width: setWidth(80),
     textAlign: 'center',
   },
   itemLine: {
@@ -215,7 +213,6 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   nameText: {
-    width: setWidth(60),
     color: Colors.DEFAULT_BLACK,
     fontFamily: 'Poppins-Bold',
     fontSize: 13,
@@ -230,7 +227,7 @@ const styles = StyleSheet.create({
   },
   amountText: {
     fontSize: 15,
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: 'Poppins-Medium',
     lineHeight: 15 * 1.4,
     color: Colors.DEFAULT_BLACK,
   },
@@ -244,7 +241,7 @@ const styles = StyleSheet.create({
   },
   totalamountText: {
     fontSize: 16,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Poppins-SemiBold',
     lineHeight: 16 * 1.4,
     color: Colors.DEFAULT_BLACK,
     marginEnd: 20,
@@ -253,10 +250,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  emptyCartImage: {
-    height: setWidth(70),
-    width: setWidth(70),
   },
   emptyCartText: {
     fontSize: 30,
@@ -275,7 +268,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: Colors.DEFAULT_YELLOW,
     borderRadius: 8,
-    paddingHorizontal: setWidth(4),
     paddingVertical: 5,
     marginTop: 10,
     justifyContent: 'space-evenly',

@@ -12,6 +12,7 @@ import Colors from '../../constants/Colors';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIdSelected } from '../../features/Shop/shopSlice';
+import { formattedPrice } from '../../utils/helpers';
 
 export const ProductCard = ({ item }) => {
   const { height, width } = useWindowDimensions();
@@ -46,7 +47,7 @@ export const ProductCard = ({ item }) => {
           marginTop: 5,
         }}>
         <Text style={styles.productNameText}>{item.name}</Text>
-        <Text>${item.price}</Text>
+        <Text>${formattedPrice(item.price)}</Text>
       </View>
 
       <View style={{ flexDirection: 'row', marginTop: 3 }}>

@@ -17,13 +17,10 @@ import { useDispatch } from 'react-redux';
 import { setUser } from '../features/User/userSlice';
 import { signupSchema } from '../../validations/authSchema';
 import { insertSession } from '../persistence';
-
-const { height, width } = Dimensions.get('window');
-// TODO: extraer a un Hook
-const setHeight = (h) => (height / 100) * h;
-const setWidth = (w) => (width / 100) * w;
+import useDimensions from '../hooks/useDimensions';
 
 const SignUpScreen = ({ navigation }) => {
+  const { setHeight, setWidth } = useDimensions();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -101,8 +98,14 @@ const SignUpScreen = ({ navigation }) => {
       />
       <Separator height={StatusBar.currentHeight} />
       <View style={styles.headerContainer}>
-        <Ionicons name="chevron-back-outline" size={30} onPress={() => {}} />
-        <Text style={styles.headerTitle}>Registro</Text>
+        <Ionicons
+          name="chevron-back-outline"
+          size={30}
+          onPress={() => navigation.goBack()}
+        />
+        <Text style={[styles.headerTitle, { width: setWidth(80) }]}>
+          Registro
+        </Text>
       </View>
       <Text style={styles.title}>Crea una cuenta</Text>
       <Text style={styles.content}>Ingresa tu correo y contraseña</Text>
@@ -119,7 +122,7 @@ const SignUpScreen = ({ navigation }) => {
               placeholder="Correo"
               placeholderTextColor={Colors.DEFAULT_GREY}
               selectionColor={Colors.DEFAULT_GREY}
-              style={styles.inputText}
+              style={[styles.inputText, { height: setHeight(6) }]}
               keyboardType="email-address"
               value={email}
               onChangeText={setEmail}
@@ -143,7 +146,7 @@ const SignUpScreen = ({ navigation }) => {
               placeholder="Contraseña"
               placeholderTextColor={Colors.DEFAULT_GREY}
               selectionColor={Colors.DEFAULT_GREY}
-              style={styles.inputText}
+              style={[styles.inputText, { height: setHeight(6) }]}
               value={password}
               onChangeText={setPassword}
             />
@@ -173,7 +176,7 @@ const SignUpScreen = ({ navigation }) => {
               placeholder="Confirmar Contraseña"
               placeholderTextColor={Colors.DEFAULT_GREY}
               selectionColor={Colors.DEFAULT_GREY}
-              style={styles.inputText}
+              style={[styles.inputText, { height: setHeight(6) }]}
               value={confirmPassword}
               onChangeText={setConfirmPassword}
             />
@@ -190,7 +193,9 @@ const SignUpScreen = ({ navigation }) => {
         </View>
         <Text style={styles.textError}>{confirmPasswordError}</Text>
       </View>
-      <TouchableOpacity onPress={onSubmit} style={styles.signInButton}>
+      <TouchableOpacity
+        onPress={onSubmit}
+        style={[styles.signInButton, { height: setHeight(6) }]}>
         <Text style={styles.signInButtonText}>Registrar</Text>
       </TouchableOpacity>
       <View style={styles.bottomTextContainer}>
@@ -221,7 +226,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'Poppins-Medium',
     lineHeight: 20 * 1.4,
-    width: setWidth(80),
     textAlign: 'center',
   },
   title: {
@@ -257,7 +261,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlignVertical: 'center',
     padding: 0,
-    height: setHeight(6),
     color: Colors.DEFAULT_BLACK,
     flex: 1,
   },
@@ -265,7 +268,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.DEFAULT_RED,
     borderRadius: 8,
     marginHorizontal: 20,
-    height: setHeight(6),
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 20,
