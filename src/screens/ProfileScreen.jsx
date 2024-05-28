@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Dimensions,
   Image,
   StatusBar,
   StyleSheet,
@@ -22,13 +21,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useGetProfileImageQuery } from '../services/shopService';
 import { clearUser } from '../features/User/userSlice';
 import { truncateSession } from '../persistence';
-
-const { height, width } = Dimensions.get('window');
-// TODO: extraer a un Hook
-const setHeight = (h) => (height / 100) * h;
-const setWidth = (w) => (width / 100) * w;
+import useDimensions from '../hooks/useDimensions';
 
 export const ProfileScreen = ({ navigation }) => {
+  const { setHeight, setWidth } = useDimensions();
   const { imageCamera, user, localId } = useSelector(
     (state) => state.auth.value,
   );
@@ -80,11 +76,20 @@ export const ProfileScreen = ({ navigation }) => {
         <View style={styles.profileImageContainer}>
           {imageFromBase || imageCamera ? (
             <Image
-              style={styles.profileImage}
+              style={[
+                styles.profileImage,
+                { width: setWidth(15), height: setWidth(15) },
+              ]}
               source={{ uri: imageFromBase?.image || imageCamera }}
             />
           ) : (
-            <Image style={styles.profileImage} source={Images.DEFAULT_AVATAR} />
+            <Image
+              style={[
+                styles.profileImage,
+                { width: setWidth(15), height: setWidth(15) },
+              ]}
+              source={Images.DEFAULT_AVATAR}
+            />
           )}
         </View>
         {/* Textos nombre e email */}
@@ -97,7 +102,11 @@ export const ProfileScreen = ({ navigation }) => {
       </View>
       <View style={styles.menuContainer}>
         <TouchableOpacity style={styles.menuItem} activeOpacity={0.8}>
-          <View style={styles.menuIcon}>
+          <View
+            style={[
+              styles.menuIcon,
+              { height: setWidth(8), width: setWidth(8) },
+            ]}>
             <MaterialCommunityIcons
               name="shopping-outline"
               size={18}
@@ -107,7 +116,14 @@ export const ProfileScreen = ({ navigation }) => {
           <Text style={styles.menuText}>Todos {'\n'} Mis Pedidos</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.menuItem} activeOpacity={0.8}>
-          <View style={styles.menuIcon}>
+          <View
+            style={[
+              styles.menuIcon,
+              {
+                height: setWidth(8),
+                width: setWidth(8),
+              },
+            ]}>
             <MaterialCommunityIcons
               name="gift-outline"
               size={18}
@@ -117,7 +133,11 @@ export const ProfileScreen = ({ navigation }) => {
           <Text style={styles.menuText}>Ofertas {'y\n'} Promos</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.menuItem} activeOpacity={0.8}>
-          <View style={styles.menuIcon}>
+          <View
+            style={[
+              styles.menuIcon,
+              { height: setWidth(8), width: setWidth(8) },
+            ]}>
             <Entypo name="address" size={18} color={Colors.DEFAULT_RED} />
           </View>
           <Text style={styles.menuText}>Mis {'\n'} Direcciones</Text>
@@ -243,8 +263,6 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   profileImage: {
-    width: setWidth(15),
-    height: setWidth(15),
     borderRadius: 32,
     resizeMode: 'contain',
   },
@@ -279,8 +297,6 @@ const styles = StyleSheet.create({
   },
   menuIcon: {
     backgroundColor: Colors.LIGHT_RED,
-    height: setWidth(8),
-    width: setWidth(8),
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 32,
@@ -319,7 +335,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-
   sectionText: {
     fontSize: 13,
     fontFamily: 'Poppins-Regular',

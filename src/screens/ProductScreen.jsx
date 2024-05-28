@@ -7,8 +7,6 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
-  Dimensions,
-  useWindowDimensions,
 } from 'react-native';
 import Colors from '../constants/Colors';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -21,21 +19,16 @@ import { useGetProductByIdQuery } from '../services/shopService';
 import { FullScreenLoader } from '../components/FullScreenLoader';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCartItem } from '../features/Cart/cartSlice';
-
-const { height, width } = Dimensions.get('window');
-//const { height, width } = useWindowDimensions();
+import useDimensions from '../hooks/useDimensions';
 
 const setStyle = (isActive) =>
   isActive
     ? styles.subMenuButtonText
     : { ...styles.subMenuButtonText, color: Colors.DEFAULT_GREY };
 
-// TODO: extraer a un Hook
-const setHeight = (h) => (height / 100) * h;
-const setWidth = (w) => (width / 100) * w;
-
 export const ProductScreen = ({ route, navigation }) => {
   const { item } = route.params;
+  const { setHeight, setWidth } = useDimensions();
   const dispatch = useDispatch();
   const {
     data: product,
@@ -45,7 +38,7 @@ export const ProductScreen = ({ route, navigation }) => {
 
   const [selectedSubMenu, setSelectedSubMenu] = useState('Details');
   const [quantity, setQuantity] = useState(1);
-  //const [priceToAdd, setPriceToAdd] = useState(price);
+
   const [total, setTotal] = useState(0);
   const [disabled, setDisabled] = useState(false);
 
@@ -96,7 +89,10 @@ export const ProductScreen = ({ route, navigation }) => {
           />
 
           <Image
-            style={styles.image}
+            style={[
+              styles.image,
+              { width: setWidth(100), height: setWidth(100) },
+            ]}
             source={{
               uri: product.image,
             }}
@@ -145,14 +141,20 @@ export const ProductScreen = ({ route, navigation }) => {
               </View>
               <View style={styles.subMenuContainer}>
                 <TouchableOpacity
-                  style={styles.subMenuButtonContainer}
+                  style={[
+                    styles.subMenuButtonContainer,
+                    { width: setWidth(30) },
+                  ]}
                   onPress={() => setSelectedSubMenu('Details')}>
                   <Text style={setStyle(selectedSubMenu === 'Details')}>
                     Detalles
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={styles.subMenuButtonContainer}
+                  style={[
+                    styles.subMenuButtonContainer,
+                    { width: setWidth(30) },
+                  ]}
                   onPress={() => setSelectedSubMenu('Reviews')}>
                   <Text style={setStyle(selectedSubMenu === 'Reviews')}>
                     Valoraciones
@@ -179,8 +181,20 @@ export const ProductScreen = ({ route, navigation }) => {
               </View>
             </View>
           </ScrollView>
-          <View style={styles.buttonsContainer}>
-            <View style={styles.itemAddContainer}>
+          <View
+            style={[
+              styles.buttonsContainer,
+              {
+                paddingHorizontal: setWidth(5),
+                width: setWidth(100),
+                paddingVertical: setWidth(2.5),
+              },
+            ]}>
+            <View
+              style={[
+                styles.itemAddContainer,
+                { height: setHeight(6), width: setWidth(30) },
+              ]}>
               <AntDesign
                 name="minuscircle"
                 color={
@@ -199,7 +213,10 @@ export const ProductScreen = ({ route, navigation }) => {
             </View>
             {/* boton carrito */}
             <TouchableOpacity
-              style={styles.cartButton}
+              style={[
+                styles.cartButton,
+                { height: setHeight(6), width: setWidth(58) },
+              ]}
               onPress={handleAddCart}
               activeOpacity={0.8}>
               <Icon source="cart" color={Colors.DEFAULT_WHITE} size={18} />
@@ -247,8 +264,6 @@ const styles = StyleSheet.create({
   },
   image: {
     position: 'absolute',
-    width: setWidth(100),
-    height: setWidth(100),
     top: 0,
   },
   subHeaderContainer: {
@@ -299,7 +314,6 @@ const styles = StyleSheet.create({
   },
   subMenuButtonContainer: {
     paddingVertical: 15,
-    width: setWidth(30),
     alignItems: 'center',
   },
   subMenuButtonText: {
@@ -330,18 +344,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     flexDirection: 'row',
-    paddingHorizontal: setWidth(5),
     justifyContent: 'space-between',
     backgroundColor: Colors.DEFAULT_WHITE,
-    width: setWidth(100),
-    paddingVertical: setWidth(2.5),
   },
   itemAddContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: Colors.LIGHT_GREY2,
-    height: setHeight(6),
-    width: setWidth(30),
     justifyContent: 'space-between',
     paddingHorizontal: 9,
     borderRadius: 8,
@@ -355,8 +364,6 @@ const styles = StyleSheet.create({
   },
   cartButton: {
     backgroundColor: Colors.DEFAULT_RED,
-    height: setHeight(6),
-    width: setWidth(58),
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

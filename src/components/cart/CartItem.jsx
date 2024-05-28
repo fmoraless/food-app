@@ -5,9 +5,7 @@ import {
   Text,
   Pressable,
   View,
-  useWindowDimensions,
   TouchableOpacity,
-  Dimensions,
 } from 'react-native';
 import Colors from '../../constants/Colors';
 import { useNavigation } from '@react-navigation/native';
@@ -15,17 +13,14 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import { Ionicons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeCartItem } from '../../features/Cart/cartSlice';
-
-const { height, width } = Dimensions.get('window');
-
-// TODO: extraer a un Hook
-const setHeight = (h) => (height / 100) * h;
-const setWidth = (w) => (width / 100) * w;
+import useDimensions from '../../hooks/useDimensions';
 
 export const CartItem = ({ item }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [itemCount, setItemCount] = useState(1);
+
+  const { setHeight, setWidth, width } = useDimensions();
 
   const handleRemoveItemFromCart = () => {
     dispatch(removeCartItem({ ...item }));
@@ -43,10 +38,14 @@ export const CartItem = ({ item }) => {
 
       <View style={styles.detailsContainer}>
         <TouchableOpacity onPress={() => {}} activeOpacity={0.8}>
-          <Text numberOfLines={1} style={styles.titleText}>
+          <Text
+            numberOfLines={1}
+            style={[styles.titleText, { width: setWidth(60) }]}>
             {item.name}
           </Text>
-          <Text numberOfLines={2} style={styles.descriptionText}>
+          <Text
+            numberOfLines={2}
+            style={[styles.descriptionText, { width: setWidth(60) }]}>
             {item.description}
           </Text>
         </TouchableOpacity>
@@ -89,7 +88,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   titleText: {
-    width: setWidth(60),
     color: Colors.DEFAULT_BLACK,
     fontFamily: 'Poppins-Bold',
     fontSize: 13,
@@ -97,7 +95,6 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   descriptionText: {
-    width: setWidth(60),
     color: Colors.DEFAULT_GREY,
     fontFamily: 'Poppins-SemiBold',
     fontSize: 10,
