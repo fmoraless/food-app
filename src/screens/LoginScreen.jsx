@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Dimensions,
   StyleSheet,
   Text,
   TextInput,
@@ -18,13 +17,10 @@ import { setUser } from '../features/User/userSlice';
 import { signinSchema } from '../../validations/authSchema';
 import { FullScreenLoader } from '../components/FullScreenLoader';
 import { insertSession } from '../persistence';
-
-const { height, width } = Dimensions.get('window');
-// TODO: extraer a un Hook
-const setHeight = (h) => (height / 100) * h;
-const setWidth = (w) => (width / 100) * w;
+import useDimensions from '../hooks/useDimensions';
 
 const LoginScreen = ({ navigation }) => {
+  const { setHeight, setWidth } = useDimensions();
   const [isPasswordShow, setIsPasswordShow] = useState(false);
   const [email, setEmail] = useState('francisco@example.com');
   const [password, setPassword] = useState('123456');
@@ -96,7 +92,9 @@ const LoginScreen = ({ navigation }) => {
       <Separator height={StatusBar.currentHeight} />
       <View style={styles.headerContainer}>
         <Ionicons name="chevron-back-outline" size={30} onPress={() => {}} />
-        <Text style={styles.headerTitle}>Ingresar</Text>
+        <Text style={[styles.headerTitle, { width: setWidth(80) }]}>
+          Ingresar
+        </Text>
       </View>
       <Text style={styles.title}>Iniciar Sesión</Text>
       <View>
@@ -112,7 +110,7 @@ const LoginScreen = ({ navigation }) => {
               placeholder="Correo"
               placeholderTextColor={Colors.DEFAULT_GREY}
               selectionColor={Colors.DEFAULT_GREY}
-              style={styles.inputText}
+              style={[styles.inputText, { height: setHeight(6) }]}
               keyboardType="email-address"
               value={email}
               onChangeText={setEmail}
@@ -136,7 +134,7 @@ const LoginScreen = ({ navigation }) => {
               placeholder="Contraseña"
               placeholderTextColor={Colors.DEFAULT_GREY}
               selectionColor={Colors.DEFAULT_GREY}
-              style={styles.inputText}
+              style={[styles.inputText, { height: setHeight(6) }]}
               value={password}
               onChangeText={setPassword}
             />
@@ -151,7 +149,9 @@ const LoginScreen = ({ navigation }) => {
         </View>
         <Text style={styles.textError}>{passwordError}</Text>
       </View>
-      <TouchableOpacity onPress={onSubmit} style={styles.signInButton}>
+      <TouchableOpacity
+        onPress={onSubmit}
+        style={[styles.signInButton, { height: setHeight(6) }]}>
         <Text style={styles.signInButtonText}>Ingresar</Text>
       </TouchableOpacity>
       <View style={styles.bottomTextContainer}>
@@ -182,7 +182,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'Poppins-Medium',
     lineHeight: 20 * 1.4,
-    width: setWidth(80),
     textAlign: 'center',
   },
   title: {
@@ -218,7 +217,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlignVertical: 'center',
     padding: 0,
-    height: setHeight(6),
     color: Colors.DEFAULT_BLACK,
     flex: 1,
   },
@@ -226,7 +224,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.DEFAULT_RED,
     borderRadius: 8,
     marginHorizontal: 20,
-    height: setHeight(6),
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 20,

@@ -19,13 +19,10 @@ import {
   usePostProfileImageMutation,
   useGetProfileImageQuery,
 } from '../services/shopService';
-
-const { height, width } = Dimensions.get('window');
-// TODO: extraer a un Hook
-const setHeight = (h) => (height / 100) * h;
-const setWidth = (w) => (width / 100) * w;
+import useDimensions from '../hooks/useDimensions';
 
 export const ImageSelectorScreen = ({ navigation }) => {
+  const { setHeight, setWidth } = useDimensions();
   const [image, setImage] = useState(null);
   const [triggerPostImage, result] = usePostProfileImageMutation();
   const { localId, imageCamera } = useSelector((state) => state.auth.value);
@@ -84,10 +81,12 @@ export const ImageSelectorScreen = ({ navigation }) => {
           color={Colors.DEFAULT_WHITE}
           onPress={() => navigation.goBack()}
         />
-        <Text style={styles.headerTitle}>Selección de Imagen</Text>
+        <Text style={[styles.headerTitle, { width: setWidth(80) }]}>
+          Selección de Imagen
+        </Text>
       </View>
       {/* Recuadro para mostrar imagen seleccionada */}
-      <View style={styles.mainContainer}>
+      <View style={[styles.mainContainer, { height: setHeight(60) }]}>
         <View style={styles.frame}>
           {image || imageFromBase ? (
             <>
@@ -96,7 +95,10 @@ export const ImageSelectorScreen = ({ navigation }) => {
                 style={styles.image}
               />
               <TouchableOpacity
-                style={styles.takePhotoButton}
+                style={[
+                  styles.takePhotoButton,
+                  { height: setHeight(6), width: setWidth(50) },
+                ]}
                 activeOpacity={0.8}
                 onPress={pickImage}>
                 <MaterialIcons
@@ -107,7 +109,10 @@ export const ImageSelectorScreen = ({ navigation }) => {
                 <Text style={styles.takePhotoButtonText}>Tomar otra foto</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={styles.takePhotoButton}
+                style={[
+                  styles.takePhotoButton,
+                  { height: setHeight(6), width: setWidth(50) },
+                ]}
                 activeOpacity={0.8}
                 onPress={confirmImage}>
                 <MaterialIcons
@@ -122,12 +127,15 @@ export const ImageSelectorScreen = ({ navigation }) => {
           ) : (
             <>
               <View style={styles.noImageContainer}>
-                <Text style={styles.noImageText}>
+                <Text style={[styles.noImageText, { width: setWidth(90) }]}>
                   No hay foto para {'\n'} mostrar...
                 </Text>
               </View>
               <TouchableOpacity
-                style={styles.takePhotoButton}
+                style={[
+                  styles.takePhotoButton,
+                  { height: setHeight(6), width: setWidth(50) },
+                ]}
                 activeOpacity={0.8}
                 onPress={pickImage}>
                 <MaterialIcons
@@ -171,7 +179,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'Poppins-Medium',
     lineHeight: 20 * 1.4,
-    width: setWidth(80),
     textAlign: 'center',
     color: Colors.DEFAULT_WHITE,
   },
@@ -183,7 +190,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 10,
     paddingBottom: 25,
-    height: setHeight(60),
   },
   frame: {
     flex: 1,
@@ -205,14 +211,11 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: 'Poppins-Medium',
     lineHeight: 15 * 1.4,
-    width: setWidth(90),
     textAlign: 'center',
     color: Colors.DEFAULT_GREY,
   },
   takePhotoButton: {
     backgroundColor: Colors.DEFAULT_RED,
-    height: setHeight(6),
-    width: setWidth(50),
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

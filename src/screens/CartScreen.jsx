@@ -5,7 +5,6 @@ import {
   Text,
   StatusBar,
   Pressable,
-  Dimensions,
   ScrollView,
   Image,
   TouchableOpacity,
@@ -25,14 +24,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { usePostOrderMutation } from '../services/shopService';
 import { clearCart } from '../features/Cart/cartSlice';
 import { FullScreenLoader } from '../components/FullScreenLoader';
-
-const { height, width } = Dimensions.get('window');
-
-// TODO: extraer a un Hook
-const setHeight = (h) => (height / 100) * h;
-const setWidth = (w) => (width / 100) * w;
+import useDimensions from '../hooks/useDimensions';
+import { formattedPrice } from '../utils/helpers';
 
 export const CartScreen = ({ navigation }) => {
+  const { setHeight, setWidth } = useDimensions();
   const dispatch = useDispatch();
 
   const { localId } = useSelector((state) => state.auth.value);
@@ -64,12 +60,6 @@ export const CartScreen = ({ navigation }) => {
     }
   }, [result]);
 
-  // TODO: Mover a un helper
-  const formattedPrice = (price) => {
-    const formatter = new Intl.NumberFormat('es-CL');
-    return formatter.format(price);
-  };
-
   const ListFooterComponent = () => <View style={{ marginBottom: 50 }} />;
 
   return (
@@ -86,24 +76,23 @@ export const CartScreen = ({ navigation }) => {
             <Icon source="arrow-left" size={25} color="white" />
           </Pressable>
         </View>
-        <Text style={styles.headerTitle}>Mi Carrito</Text>
+        <Text style={[styles.headerTitle, { width: setWidth(80) }]}>
+          Mi Carrito
+        </Text>
       </View>
       {cartData?.length > 0 ? (
         <>
-          {/* <FlatList
-            data={cartData}
-            renderItem={({ item }) => <CartItem item={item} />}
-            keyExtractor={(item, index) => item.id + index.toString}
-            showsVerticalScrollIndicator={false}
-            ListFooterComponent={<ListFooterComponent />}
-          /> */}
           <ScrollView>
             <View style={styles.foodList}>
               {cartData?.map((item) => (
                 <CartItem item={item} key={item?.id} />
               ))}
             </View>
-            <View style={styles.amountContainer}>
+            <View
+              style={[
+                styles.amountContainer,
+                { marginHorizontal: setWidth(4) },
+              ]}>
               <View style={styles.amountSubContainer}>
                 <Text style={styles.amountLabelText}>Sub total</Text>
                 <Text style={styles.amountText}>${formattedPrice(total)}</Text>
@@ -117,13 +106,20 @@ export const CartScreen = ({ navigation }) => {
                 <Text style={styles.amountText}>$0</Text>
               </View>
             </View>
-            <View style={styles.totalContainer}>
+            <View
+              style={[
+                styles.totalContainer,
+                { marginHorizontal: setWidth(4) },
+              ]}>
               <Text style={styles.totalText}>Total</Text>
               <Text style={styles.totalText}>${formattedPrice(total)}</Text>
             </View>
 
             <TouchableOpacity
-              style={styles.checkoutButton}
+              style={[
+                styles.checkoutButton,
+                { width: setWidth(80), height: setHeight(7) },
+              ]}
               onPress={onConfirmOrder}>
               <View style={styles.rowAndCenter}>
                 <Ionicons
@@ -143,7 +139,10 @@ export const CartScreen = ({ navigation }) => {
       ) : (
         <View style={styles.emptyCartContainer}>
           <Image
-            style={styles.emptyCartImage}
+            style={{
+              height: setWidth(60),
+              width: setWidth(60),
+            }}
             source={Images.EMPTY_CART}
             resizeMode="contain"
           />
@@ -152,7 +151,7 @@ export const CartScreen = ({ navigation }) => {
             Adelante, pide alguno de nuestros platos
           </Text>
           <TouchableOpacity
-            style={styles.addButtonEmpty}
+            style={[styles.addButtonEmpty, { paddingHorizontal: setWidth(4) }]}
             onPress={() => navigation.navigate('Home')}>
             <AntDesign name="plus" color={Colors.DEFAULT_WHITE} size={20} />
             <Text style={styles.addButtonEmptyText}>Agregar</Text>
@@ -179,7 +178,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'Poppins-Medium',
     lineHeight: 20 * 1.4,
-    width: setWidth(80),
     textAlign: 'center',
   },
   btn: {
@@ -198,7 +196,6 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   amountContainer: {
-    marginHorizontal: setWidth(4),
     paddingVertical: 20,
     borderBottomWidth: 0.5,
   },
@@ -225,7 +222,6 @@ const styles = StyleSheet.create({
     color: Colors.DEFAULT_BLACK,
   },
   totalContainer: {
-    marginHorizontal: setWidth(4),
     paddingVertical: 15,
     borderBottomWidth: 0.5,
     flexDirection: 'row',
@@ -239,9 +235,7 @@ const styles = StyleSheet.create({
   },
   checkoutButton: {
     flexDirection: 'row',
-    width: setWidth(80),
     backgroundColor: Colors.DEFAULT_RED,
-    height: setHeight(7),
     alignSelf: 'center',
     paddingHorizontal: 20,
     justifyContent: 'space-between',
@@ -261,10 +255,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  emptyCartImage: {
-    height: setWidth(60),
-    width: setWidth(60),
-  },
   emptyCartText: {
     fontSize: 30,
     fontFamily: 'Poppins-Light',
@@ -282,7 +272,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: Colors.DEFAULT_YELLOW,
     borderRadius: 8,
-    paddingHorizontal: setWidth(4),
     paddingVertical: 5,
     marginTop: 10,
     justifyContent: 'space-evenly',
