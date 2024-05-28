@@ -25,6 +25,7 @@ import { usePostOrderMutation } from '../services/shopService';
 import { clearCart } from '../features/Cart/cartSlice';
 import { FullScreenLoader } from '../components/FullScreenLoader';
 import useDimensions from '../hooks/useDimensions';
+import { formattedPrice } from '../utils/helpers';
 
 export const CartScreen = ({ navigation }) => {
   const { setHeight, setWidth } = useDimensions();
@@ -58,12 +59,6 @@ export const CartScreen = ({ navigation }) => {
       dispatch(clearCart());
     }
   }, [result]);
-
-  // TODO: Mover a un helper
-  const formattedPrice = (price) => {
-    const formatter = new Intl.NumberFormat('es-CL');
-    return formatter.format(price);
-  };
 
   const ListFooterComponent = () => <View style={{ marginBottom: 50 }} />;
 

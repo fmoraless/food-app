@@ -14,6 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeCartItem } from '../../features/Cart/cartSlice';
 import useDimensions from '../../hooks/useDimensions';
+import { formattedPrice } from '../../utils/helpers';
 
 export const CartItem = ({ item }) => {
   const navigation = useNavigation();
@@ -50,7 +51,9 @@ export const CartItem = ({ item }) => {
           </Text>
         </TouchableOpacity>
         <View style={styles.footerContainer}>
-          <Text style={styles.priceText}>${item.itemTotal}</Text>
+          <Text style={styles.priceText}>
+            ${formattedPrice(item.itemTotal)}
+          </Text>
           <View style={styles.itemAddContainer}>
             {itemCount > 0 ? (
               <>

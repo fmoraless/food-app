@@ -21,6 +21,7 @@ import Images from '../constants/Images';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useSelector } from 'react-redux';
 import useDimensions from '../hooks/useDimensions';
+import { formattedPrice } from '../utils/helpers';
 
 export const OrdersScreen = () => {
   const navigation = useNavigation();
@@ -63,7 +64,7 @@ export const OrdersScreen = () => {
 
   const renderSectionFooter = ({ section: { total } }) => (
     <View style={styles.footerStyle}>
-      <Text style={styles.totalamountText}>{total}</Text>
+      <Text style={styles.totalamountText}>${formattedPrice(total)}</Text>
     </View>
   );
 
@@ -73,7 +74,7 @@ export const OrdersScreen = () => {
         <Text style={[styles.nameText, { width: setWidth(60) }]}>{name}</Text>
         <Text style={styles.priceText}>x{quantity}</Text>
         <View style={{ flex: 1 }} />
-        <Text style={styles.amountText}>${price}</Text>
+        <Text style={styles.amountText}>${formattedPrice(price)}</Text>
       </View>
     </View>
   );
@@ -226,7 +227,7 @@ const styles = StyleSheet.create({
   },
   amountText: {
     fontSize: 15,
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: 'Poppins-Medium',
     lineHeight: 15 * 1.4,
     color: Colors.DEFAULT_BLACK,
   },
@@ -240,7 +241,7 @@ const styles = StyleSheet.create({
   },
   totalamountText: {
     fontSize: 16,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Poppins-SemiBold',
     lineHeight: 16 * 1.4,
     color: Colors.DEFAULT_BLACK,
     marginEnd: 20,

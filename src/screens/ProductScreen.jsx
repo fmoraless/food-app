@@ -20,6 +20,7 @@ import { FullScreenLoader } from '../components/FullScreenLoader';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCartItem } from '../features/Cart/cartSlice';
 import useDimensions from '../hooks/useDimensions';
+import { formattedPrice } from '../utils/helpers';
 
 const setStyle = (isActive) =>
   isActive
@@ -41,12 +42,6 @@ export const ProductScreen = ({ route, navigation }) => {
 
   const [total, setTotal] = useState(0);
   const [disabled, setDisabled] = useState(false);
-
-  // TODO: Mover a un helper
-  const formattedPrice = (price) => {
-    const formatter = new Intl.NumberFormat('es-CL');
-    return formatter.format(price);
-  };
 
   const increment = () => {
     setQuantity((prev) => prev + 1);
