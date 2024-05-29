@@ -78,76 +78,79 @@ export const HomeScreen = () => {
   const ListFooterComponent = () => <View style={{ marginBottom: 180 }} />;
 
   return (
-    <View style={styles.container}>
-      <StatusBar
-        barStyle="light-content"
-        backgroundColor={Colors.DEFAULT_RED}
-        translucent
-      />
+    <KeyboardAvoidingView style={styles.container}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View>
+          <StatusBar
+            barStyle="light-content"
+            backgroundColor={Colors.DEFAULT_RED}
+            translucent
+          />
 
-      <Separator height={StatusBar.currentHeight} />
+          <Separator height={StatusBar.currentHeight} />
 
-      <View style={styles.backgroundCurvedContainer} />
+          <View style={styles.backgroundCurvedContainer} />
 
-      <View style={styles.headerContainer}>
-        <View style={styles.searchContainer}>
-          <View style={styles.searchSection}>
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-              <Searchbar
-                placeholder="Buscar..."
-                onChangeText={setSearchQuery}
-                value={searchQuery}
-              />
-            </TouchableWithoutFeedback>
-          </View>
-        </View>
-
-        {isLoading ? (
-          <FullScreenLoader />
-        ) : (
-          <View style={styles.categoriesContainer}>
-            <FlatList
-              horizontal={true}
-              data={categories}
-              renderItem={({ item }) => (
-                <CategoryMenuItem
-                  key={item.name}
-                  name={item.name}
-                  logo={item.logo}
+          <View style={styles.headerContainer}>
+            <View style={styles.searchContainer}>
+              <View style={styles.searchSection}>
+                <Searchbar
+                  placeholder="Buscar..."
+                  onChangeText={setSearchQuery}
+                  value={searchQuery}
                 />
-              )}
-              keyExtractor={(item, index) => item.name + index.toString}
-              showsHorizontalScrollIndicator={false}
-              ItemSeparatorComponent={() => <View style={{ width: 30 }} />}
-            />
+              </View>
+            </View>
+
+            {isLoading ? (
+              <FullScreenLoader />
+            ) : (
+              <View style={styles.categoriesContainer}>
+                <FlatList
+                  horizontal={true}
+                  data={categories}
+                  renderItem={({ item }) => (
+                    <CategoryMenuItem
+                      key={item.name}
+                      name={item.name}
+                      logo={item.logo}
+                    />
+                  )}
+                  keyExtractor={(item, index) => item.name + index.toString}
+                  showsHorizontalScrollIndicator={false}
+                  ItemSeparatorComponent={() => <View style={{ width: 30 }} />}
+                />
+              </View>
+            )}
           </View>
-        )}
-      </View>
-      {loadingProducts ? (
-        <FullScreenLoader />
-      ) : (
-        <View
-          style={{
-            marginTop: 40,
-          }}>
-          <View
-            style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginHorizontal: 8,
-            }}>
-            <FlatList
-              data={filteredProducts}
-              numColumns={2}
-              renderItem={({ item }) => <ProductCard item={item} />}
-              keyExtractor={(item, index) => item.id + index.toString}
-              showsVerticalScrollIndicator={false}
-              ListFooterComponent={<ListFooterComponent />}
-            />
-          </View>
+
+          {loadingProducts ? (
+            <FullScreenLoader />
+          ) : (
+            <View
+              style={{
+                marginTop: 40,
+              }}>
+              <View
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginHorizontal: 8,
+                }}>
+                <FlatList
+                  data={filteredProducts}
+                  numColumns={2}
+                  renderItem={({ item }) => <ProductCard item={item} />}
+                  keyExtractor={(item, index) => item.id + index.toString}
+                  showsVerticalScrollIndicator={false}
+                  ListFooterComponent={<ListFooterComponent />}
+                />
+              </View>
+            </View>
+          )}
         </View>
-      )}
-    </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
