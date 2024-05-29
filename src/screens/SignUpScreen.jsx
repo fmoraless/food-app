@@ -6,6 +6,9 @@ import {
   TextInput,
   View,
   TouchableOpacity,
+  Keyboard,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import Colors from '../constants/Colors';
 import { StatusBar } from 'expo-status-bar';
@@ -18,6 +21,7 @@ import { setUser } from '../features/User/userSlice';
 import { signupSchema } from '../../validations/authSchema';
 import { insertSession } from '../persistence';
 import useDimensions from '../hooks/useDimensions';
+import CustomInput from '../components/CustomInput';
 
 const SignUpScreen = ({ navigation }) => {
   const { setHeight, setWidth } = useDimensions();
@@ -90,123 +94,81 @@ const SignUpScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <StatusBar
-        barStyle="dark-content"
-        backgroundColor={Colors.DEFAULT_WHITE}
-        translucent
-      />
-      <Separator height={StatusBar.currentHeight} />
-      <View style={styles.headerContainer}>
-        <Ionicons
-          name="chevron-back-outline"
-          size={30}
-          onPress={() => navigation.goBack()}
-        />
-        <Text style={[styles.headerTitle, { width: setWidth(80) }]}>
-          Registro
-        </Text>
-      </View>
-      <Text style={styles.title}>Crea una cuenta</Text>
-      <Text style={styles.content}>Ingresa tu correo y contraseña</Text>
-      <View>
-        <View style={styles.inputContainer}>
-          <View style={styles.inputSubContainer}>
-            <Feather
-              name="mail"
-              size={22}
-              color={Colors.DEFAULT_GREY}
-              style={{ marginRight: 10 }}
+    <KeyboardAvoidingView style={styles.container}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View>
+          <StatusBar
+            barStyle="dark-content"
+            backgroundColor={Colors.DEFAULT_WHITE}
+            translucent
+          />
+          <Separator height={StatusBar.currentHeight} />
+          <View style={styles.headerContainer}>
+            <Ionicons
+              name="chevron-back-outline"
+              size={30}
+              onPress={() => navigation.goBack()}
             />
-            <TextInput
-              placeholder="Correo"
-              placeholderTextColor={Colors.DEFAULT_GREY}
-              selectionColor={Colors.DEFAULT_GREY}
-              style={[styles.inputText, { height: setHeight(6) }]}
-              keyboardType="email-address"
-              value={email}
-              onChangeText={setEmail}
-            />
+            <Text style={[styles.headerTitle, { width: setWidth(80) }]}>
+              Registro
+            </Text>
+          </View>
+          <Text style={styles.title}>Crea una cuenta</Text>
+          <Text style={styles.content}>Ingresa tu correo y contraseña</Text>
+
+          <CustomInput
+            placeholder="Correo"
+            value={email}
+            setValue={setEmail}
+            keyboardType="email-address"
+            iconName="mail"
+            error={emailError}
+            setError={setEmailError}
+          />
+          <Separator height={15} />
+
+          <CustomInput
+            placeholder="Contraseña"
+            value={password}
+            setValue={setPassword}
+            iconName="lock"
+            secureTextEntry
+            isPasswordInput={true}
+            isPasswordShow={isPasswordShow}
+            setIsPasswordShow={setIsPasswordShow}
+            error={passwordError}
+            setError={setPasswordError}
+          />
+          <Separator height={15} />
+
+          <CustomInput
+            placeholder="Confirmar Contraseña"
+            value={confirmPassword}
+            setValue={setConfirmPassword}
+            iconName="lock"
+            secureTextEntry
+            isPasswordInput={true}
+            isPasswordShow={isConfirmationPasswordShow}
+            setIsPasswordShow={setIsConfirmationPasswordShow}
+            error={confirmPasswordError}
+            setError={setConfirmPasswordError}
+          />
+          <TouchableOpacity
+            onPress={onSubmit}
+            style={[styles.signInButton, { height: setHeight(6) }]}>
+            <Text style={styles.signInButtonText}>Registrar</Text>
+          </TouchableOpacity>
+          <View style={styles.bottomTextContainer}>
+            <Text style={styles.bottomText}>¿Ya tienes una cuenta?</Text>
+            <Text
+              style={styles.bottomTextLogin}
+              onPress={() => navigation.navigate('Login')}>
+              Ingresar
+            </Text>
           </View>
         </View>
-        <Text style={styles.textError}>{emailError}</Text>
-      </View>
-      <Separator height={15} />
-      <View>
-        <View style={styles.inputContainer}>
-          <View style={styles.inputSubContainer}>
-            <Feather
-              name="lock"
-              size={22}
-              color={Colors.DEFAULT_GREY}
-              style={{ marginRight: 10 }}
-            />
-            <TextInput
-              secureTextEntry={isPasswordShow ? false : true}
-              placeholder="Contraseña"
-              placeholderTextColor={Colors.DEFAULT_GREY}
-              selectionColor={Colors.DEFAULT_GREY}
-              style={[styles.inputText, { height: setHeight(6) }]}
-              value={password}
-              onChangeText={setPassword}
-            />
-            <Feather
-              name={confirmPassword ? 'eye' : 'eye-off'}
-              size={22}
-              color={Colors.DEFAULT_GREY}
-              style={{ marginRight: 10 }}
-              onPress={() => setIsPasswordShow(!isPasswordShow)}
-            />
-          </View>
-        </View>
-        <Text style={styles.textError}>{passwordError}</Text>
-      </View>
-      <Separator height={15} />
-      <View>
-        <View style={styles.inputContainer}>
-          <View style={styles.inputSubContainer}>
-            <Feather
-              name="lock"
-              size={22}
-              color={Colors.DEFAULT_GREY}
-              style={{ marginRight: 10 }}
-            />
-            <TextInput
-              secureTextEntry={isConfirmationPasswordShow ? false : true}
-              placeholder="Confirmar Contraseña"
-              placeholderTextColor={Colors.DEFAULT_GREY}
-              selectionColor={Colors.DEFAULT_GREY}
-              style={[styles.inputText, { height: setHeight(6) }]}
-              value={confirmPassword}
-              onChangeText={setConfirmPassword}
-            />
-            <Feather
-              name={isConfirmationPasswordShow ? 'eye' : 'eye-off'}
-              size={22}
-              color={Colors.DEFAULT_GREY}
-              style={{ marginRight: 10 }}
-              onPress={() =>
-                setIsConfirmationPasswordShow(!isConfirmationPasswordShow)
-              }
-            />
-          </View>
-        </View>
-        <Text style={styles.textError}>{confirmPasswordError}</Text>
-      </View>
-      <TouchableOpacity
-        onPress={onSubmit}
-        style={[styles.signInButton, { height: setHeight(6) }]}>
-        <Text style={styles.signInButtonText}>Registrar</Text>
-      </TouchableOpacity>
-      <View style={styles.bottomTextContainer}>
-        <Text style={styles.bottomText}>¿Ya tienes una cuenta?</Text>
-        <Text
-          style={styles.bottomTextLogin}
-          onPress={() => navigation.navigate('Login')}>
-          Ingresar
-        </Text>
-      </View>
-    </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -244,26 +206,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginHorizontal: 20,
   },
-  inputContainer: {
-    backgroundColor: Colors.LIGHT_GREY,
-    paddingHorizontal: 10,
-    marginHorizontal: 20,
-    borderRadius: 8,
-    borderWidth: 0.5,
-    borderColor: Colors.LIGHT_GREY2,
-    justifyContent: 'center',
-  },
-  inputSubContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  inputText: {
-    fontSize: 18,
-    textAlignVertical: 'center',
-    padding: 0,
-    color: Colors.DEFAULT_BLACK,
-    flex: 1,
-  },
   signInButton: {
     backgroundColor: Colors.DEFAULT_RED,
     borderRadius: 8,
@@ -290,13 +232,6 @@ const styles = StyleSheet.create({
   bottomTextLogin: {
     fontSize: 15,
     fontFamily: 'Poppins-Bold',
-  },
-  textError: {
-    marginStart: 20,
-    marginTop: 5,
-    fontSize: 15,
-    fontFamily: 'Poppins-Thin',
-    color: Colors.DEFAULT_RED,
   },
 });
 

@@ -5,6 +5,9 @@ import {
   TextInput,
   View,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import Colors from '../constants/Colors';
 import { StatusBar } from 'expo-status-bar';
@@ -18,12 +21,13 @@ import { signinSchema } from '../../validations/authSchema';
 import { FullScreenLoader } from '../components/FullScreenLoader';
 import { insertSession } from '../persistence';
 import useDimensions from '../hooks/useDimensions';
+import CustomInput from '../components/CustomInput';
 
 const LoginScreen = ({ navigation }) => {
   const { setHeight, setWidth } = useDimensions();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isPasswordShow, setIsPasswordShow] = useState(false);
-  const [email, setEmail] = useState('francisco@example.com');
-  const [password, setPassword] = useState('123456');
 
   /* States de errores */
   const [emailError, setEmailError] = useState('');
@@ -83,86 +87,65 @@ const LoginScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <StatusBar
-        barStyle="dark-content"
-        backgroundColor={Colors.DEFAULT_WHITE}
-        translucent
-      />
-      <Separator height={StatusBar.currentHeight} />
-      <View style={styles.headerContainer}>
-        <Ionicons name="chevron-back-outline" size={30} onPress={() => {}} />
-        <Text style={[styles.headerTitle, { width: setWidth(80) }]}>
-          Ingresar
-        </Text>
-      </View>
-      <Text style={styles.title}>Iniciar Sesión</Text>
-      <View>
-        <View style={styles.inputContainer}>
-          <View style={styles.inputSubContainer}>
-            <Feather
-              name="mail"
-              size={22}
-              color={Colors.DEFAULT_GREY}
-              style={{ marginRight: 10 }}
+    <KeyboardAvoidingView style={styles.container}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View>
+          <StatusBar
+            barStyle="dark-content"
+            backgroundColor={Colors.DEFAULT_WHITE}
+            translucent
+          />
+          <Separator height={StatusBar.currentHeight} />
+          <View style={styles.headerContainer}>
+            <Ionicons
+              name="chevron-back-outline"
+              size={30}
+              onPress={() => {}}
             />
-            <TextInput
-              placeholder="Correo"
-              placeholderTextColor={Colors.DEFAULT_GREY}
-              selectionColor={Colors.DEFAULT_GREY}
-              style={[styles.inputText, { height: setHeight(6) }]}
-              keyboardType="email-address"
-              value={email}
-              onChangeText={setEmail}
-            />
+            <Text style={[styles.headerTitle, { width: setWidth(80) }]}>
+              Ingresar
+            </Text>
+          </View>
+          <Text style={styles.title}>Iniciar Sesión</Text>
+          <CustomInput
+            placeholder="Correo"
+            value={email}
+            setValue={setEmail}
+            keyboardType="email-address"
+            iconName="mail"
+            error={emailError}
+            setError={setEmailError}
+          />
+          <Separator height={15} />
+
+          <CustomInput
+            placeholder="Contraseña"
+            value={password}
+            setValue={setPassword}
+            iconName="lock"
+            secureTextEntry
+            isPasswordInput={true}
+            isPasswordShow={isPasswordShow}
+            setIsPasswordShow={setIsPasswordShow}
+            error={passwordError}
+            setError={setPasswordError}
+          />
+          <TouchableOpacity
+            onPress={onSubmit}
+            style={[styles.signInButton, { height: setHeight(6) }]}>
+            <Text style={styles.signInButtonText}>Ingresar</Text>
+          </TouchableOpacity>
+          <View style={styles.bottomTextContainer}>
+            <Text style={styles.bottomText}>¿Aun no tienes una cuenta?</Text>
+            <Text
+              style={styles.bottomTextLogin}
+              onPress={() => navigation.navigate('Register')}>
+              Crear una cuenta
+            </Text>
           </View>
         </View>
-        <Text style={styles.textError}>{emailError}</Text>
-      </View>
-      <Separator height={15} />
-      <View>
-        <View style={styles.inputContainer}>
-          <View style={styles.inputSubContainer}>
-            <Feather
-              name="lock"
-              size={22}
-              color={Colors.DEFAULT_GREY}
-              style={{ marginRight: 10 }}
-            />
-            <TextInput
-              secureTextEntry={isPasswordShow ? false : true}
-              placeholder="Contraseña"
-              placeholderTextColor={Colors.DEFAULT_GREY}
-              selectionColor={Colors.DEFAULT_GREY}
-              style={[styles.inputText, { height: setHeight(6) }]}
-              value={password}
-              onChangeText={setPassword}
-            />
-            <Feather
-              name={isPasswordShow ? 'eye' : 'eye-off'}
-              size={22}
-              color={Colors.DEFAULT_GREY}
-              style={{ marginRight: 10 }}
-              onPress={() => setIsPasswordShow(!isPasswordShow)}
-            />
-          </View>
-        </View>
-        <Text style={styles.textError}>{passwordError}</Text>
-      </View>
-      <TouchableOpacity
-        onPress={onSubmit}
-        style={[styles.signInButton, { height: setHeight(6) }]}>
-        <Text style={styles.signInButtonText}>Ingresar</Text>
-      </TouchableOpacity>
-      <View style={styles.bottomTextContainer}>
-        <Text style={styles.bottomText}>¿Aun no tienes una cuenta?</Text>
-        <Text
-          style={styles.bottomTextLogin}
-          onPress={() => navigation.navigate('Register')}>
-          Crear una cuenta
-        </Text>
-      </View>
-    </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -200,26 +183,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginHorizontal: 20,
   },
-  inputContainer: {
-    backgroundColor: Colors.LIGHT_GREY,
-    paddingHorizontal: 10,
-    marginHorizontal: 20,
-    borderRadius: 8,
-    borderWidth: 0.5,
-    borderColor: Colors.LIGHT_GREY2,
-    justifyContent: 'center',
-  },
-  inputSubContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  inputText: {
-    fontSize: 18,
-    textAlignVertical: 'center',
-    padding: 0,
-    color: Colors.DEFAULT_BLACK,
-    flex: 1,
-  },
   signInButton: {
     backgroundColor: Colors.DEFAULT_RED,
     borderRadius: 8,
@@ -246,13 +209,6 @@ const styles = StyleSheet.create({
   bottomTextLogin: {
     fontSize: 15,
     fontFamily: 'Poppins-Bold',
-  },
-  textError: {
-    marginStart: 20,
-    marginTop: 5,
-    fontSize: 15,
-    fontFamily: 'Poppins-Thin',
-    color: Colors.DEFAULT_RED,
   },
 });
 

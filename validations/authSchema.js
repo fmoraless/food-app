@@ -11,8 +11,8 @@ export const signupSchema = object().shape({
 });
 
 export const signinSchema = object().shape({
-  email: string().required('Email is required').email('Not a valid email'),
+  email: string().required('Correo es requerido').email('Correo no es válido'),
   password: string()
-    .required('Password is required')
-    .min(6, 'Password must be at least 6 characters'),
+    .required('Contraseña es requerida')
+    .min(6, 'Contraseña debe tener al menos 6 caracteres'),
 });
