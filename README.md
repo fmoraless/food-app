@@ -4,7 +4,7 @@ Aplicación para realizar pedidos de comida:
 
 ## Features
 
-**#** Busqueda de productos por texto.
+**#** Búsqueda de productos por texto.
 
 **#** Filtrado de productos por categorías.
 
@@ -12,9 +12,11 @@ Aplicación para realizar pedidos de comida:
 
 **#** Creación de Orden de compra.
 
-**#** Sección perfil con carga de imagen a través de camara.
+**#** Sección perfil con carga de imagen a través de cámara.
 
-**#** Persistencia de datos local
+**#** Persistencia de sesión local SQlite
+
+**#** Manejo de estado con Redux/Toolkit
 
 ## Requisitos Previos
 
