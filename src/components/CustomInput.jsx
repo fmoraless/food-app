@@ -3,10 +3,11 @@ import { StyleSheet, Text, View, TextInput } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import Colors from '../constants/Colors';
 import useDimensions from '../hooks/useDimensions';
+import { Controller } from 'react-hook-form';
 
 const CustomInput = ({
-  value,
-  setValue,
+  control,
+  name,
   placeholder,
   secureTextEntry,
   keyboardType,
@@ -14,43 +15,61 @@ const CustomInput = ({
   isPasswordInput,
   isPasswordShow,
   setIsPasswordShow,
-  error,
-  setError,
 }) => {
   const { setHeight, setWidth } = useDimensions();
 
   return (
     <View>
-      <View style={styles.inputContainer}>
-        <View style={styles.inputSubContainer}>
-          <Feather
-            name={iconName}
-            size={22}
-            color={Colors.DEFAULT_GREY}
-            style={{ marginRight: 10 }}
-          />
-          <TextInput
-            placeholder={placeholder}
-            placeholderTextColor={Colors.DEFAULT_GREY}
-            selectionColor={Colors.DEFAULT_GREY}
-            style={[styles.inputText, { height: setHeight(6) }]}
-            keyboardType={keyboardType}
-            value={value}
-            onChangeText={setValue}
-            secureTextEntry={secureTextEntry && !isPasswordShow}
-          />
-          {isPasswordInput && (
-            <Feather
-              name={isPasswordShow ? 'eye' : 'eye-off'}
-              size={22}
-              color={Colors.DEFAULT_GREY}
-              style={{ marginRight: 10 }}
-              onPress={() => setIsPasswordShow(!isPasswordShow)}
-            />
-          )}
-        </View>
-      </View>
-      <Text style={styles.textError}>{error}</Text>
+      <Controller
+        control={control}
+        name={name}
+        rules={{ required: true }}
+        render={({
+          field: { value, onChange, onBlur },
+          fieldState: { error },
+        }) => (
+          <>
+            <View
+              style={[
+                styles.inputContainer,
+                {
+                  borderColor: error ? Colors.DEFAULT_RED : Colors.LIGHT_GREY2,
+                },
+              ]}>
+              <View style={styles.inputSubContainer}>
+                <Feather
+                  name={iconName}
+                  size={22}
+                  color={Colors.DEFAULT_GREY}
+                  style={{ marginRight: 10 }}
+                />
+                <TextInput
+                  value={value}
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                  rules={{ required: true }}
+                  placeholder={placeholder}
+                  style={[styles.inputText, { height: setHeight(6) }]}
+                  secureTextEntry={secureTextEntry && !isPasswordShow}
+                  keyboardType={keyboardType}
+                />
+                {isPasswordInput && (
+                  <Feather
+                    name={isPasswordShow ? 'eye' : 'eye-off'}
+                    size={22}
+                    color={Colors.DEFAULT_GREY}
+                    style={{ marginRight: 10 }}
+                    onPress={() => setIsPasswordShow(!isPasswordShow)}
+                  />
+                )}
+              </View>
+            </View>
+            {error && (
+              <Text style={styles.textError}>{error.message || 'error'}</Text>
+            )}
+          </>
+        )}
+      />
     </View>
   );
 };
