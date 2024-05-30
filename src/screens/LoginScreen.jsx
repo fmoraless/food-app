@@ -22,16 +22,20 @@ import { FullScreenLoader } from '../components/FullScreenLoader';
 import { insertSession } from '../persistence';
 import useDimensions from '../hooks/useDimensions';
 import CustomInput from '../components/CustomInput';
+import { useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const LoginScreen = ({ navigation }) => {
   const { setHeight, setWidth } = useDimensions();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [isPasswordShow, setIsPasswordShow] = useState(false);
 
-  /* States de errores */
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(signinSchema),
+  });
 
   const dispatch = useDispatch();
 
@@ -61,17 +65,9 @@ const LoginScreen = ({ navigation }) => {
     }
   }, [result]);
 
-  const onSubmit = () => {
+  const onSubmit = (data) => {
     try {
-      setEmailError('');
-      setPasswordError('');
-
-      const validation = signinSchema.validateSync({
-        email,
-        password,
-      });
-
-      triggerSignIn({ email, password });
+      triggerSignIn({ email: data.email, password: data.password });
     } catch (error) {
       switch (error.path) {
         case 'email':
@@ -109,29 +105,28 @@ const LoginScreen = ({ navigation }) => {
           <Text style={styles.title}>Iniciar Sesión</Text>
           <CustomInput
             placeholder="Correo"
-            value={email}
-            setValue={setEmail}
+            name="email"
+            control={control}
             keyboardType="email-address"
             iconName="mail"
-            error={emailError}
-            setError={setEmailError}
+            //rules={{ required: 'Email is required' }}
           />
+
           <Separator height={15} />
 
           <CustomInput
             placeholder="Contraseña"
-            value={password}
-            setValue={setPassword}
+            name="password"
+            control={control}
             iconName="lock"
             secureTextEntry
             isPasswordInput={true}
             isPasswordShow={isPasswordShow}
             setIsPasswordShow={setIsPasswordShow}
-            error={passwordError}
-            setError={setPasswordError}
+            //rules={{ required: 'Contraseña requerida' }}
           />
           <TouchableOpacity
-            onPress={onSubmit}
+            onPress={handleSubmit(onSubmit)}
             style={[styles.signInButton, { height: setHeight(6) }]}>
             <Text style={styles.signInButtonText}>Ingresar</Text>
           </TouchableOpacity>

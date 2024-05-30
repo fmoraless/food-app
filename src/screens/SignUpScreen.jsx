@@ -22,20 +22,22 @@ import { signupSchema } from '../../validations/authSchema';
 import { insertSession } from '../persistence';
 import useDimensions from '../hooks/useDimensions';
 import CustomInput from '../components/CustomInput';
+import { useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const SignUpScreen = ({ navigation }) => {
   const { setHeight, setWidth } = useDimensions();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [isPasswordShow, setIsPasswordShow] = useState(false);
   const [isConfirmationPasswordShow, setIsConfirmationPasswordShow] =
     useState(false);
 
-  /* States de errores */
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(signupSchema),
+  });
 
   const dispatch = useDispatch();
 
@@ -64,17 +66,13 @@ const SignUpScreen = ({ navigation }) => {
     }
   }, [result]);
 
-  const onSubmit = () => {
+  const onSubmit = (data) => {
     try {
-      setEmailError('');
-      setPasswordError('');
-      setConfirmPasswordError('');
-      const validation = signupSchema.validateSync({
-        email,
-        password,
-        confirmPassword,
+      triggerSignUp({
+        email: data.email,
+        password: data.password,
+        returnSecureToken: true,
       });
-      triggerSignUp({ email, password, returnSecureToken: true });
     } catch (error) {
       switch (error.path) {
         case 'email':
@@ -118,43 +116,37 @@ const SignUpScreen = ({ navigation }) => {
 
           <CustomInput
             placeholder="Correo"
-            value={email}
-            setValue={setEmail}
+            name="email"
+            control={control}
             keyboardType="email-address"
             iconName="mail"
-            error={emailError}
-            setError={setEmailError}
           />
           <Separator height={15} />
 
           <CustomInput
             placeholder="Contraseña"
-            value={password}
-            setValue={setPassword}
+            name="password"
+            control={control}
             iconName="lock"
             secureTextEntry
             isPasswordInput={true}
             isPasswordShow={isPasswordShow}
             setIsPasswordShow={setIsPasswordShow}
-            error={passwordError}
-            setError={setPasswordError}
           />
           <Separator height={15} />
 
           <CustomInput
             placeholder="Confirmar Contraseña"
-            value={confirmPassword}
-            setValue={setConfirmPassword}
+            name="confirmPassword"
+            control={control}
             iconName="lock"
             secureTextEntry
             isPasswordInput={true}
             isPasswordShow={isConfirmationPasswordShow}
             setIsPasswordShow={setIsConfirmationPasswordShow}
-            error={confirmPasswordError}
-            setError={setConfirmPasswordError}
           />
           <TouchableOpacity
-            onPress={onSubmit}
+            onPress={handleSubmit(onSubmit)}
             style={[styles.signInButton, { height: setHeight(6) }]}>
             <Text style={styles.signInButtonText}>Registrar</Text>
           </TouchableOpacity>
